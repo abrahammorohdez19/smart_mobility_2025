@@ -94,7 +94,7 @@ class QCarTrajectory(Node):
             self.get_logger().info(
                 f'Pos: X={self.x:+7.3f}m Y={self.y:+7.3f}m | '
                 #f'Vel: vx={self.vx:+6.3f} vy={self.vy:+6.3f} |v|={self.velocity:.3f} | '
-                f'θ={math.degrees(self.theta):+7.2f}°'
+                #f'θ={math.degrees(self.theta):+7.2f}°'
             )
         
         self.last_time = current_time
