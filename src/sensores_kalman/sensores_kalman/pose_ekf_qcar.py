@@ -137,20 +137,8 @@ class PoseEstimator(Node):
         # Mostrar en terminal
         # ═══════════════════════════════════════════════════════════
         theta_deg = math.degrees(self.theta)
-        
-        print(f'\r┌────────────────────────────────────────┐')
-        print(f'│        POSE ESTIMADA (QCar)            │')
-        print(f'├────────────────────────────────────────┤')
-        print(f'│  X:     {self.x:>10.4f} m                │')
-        print(f'│  Y:     {self.y:>10.4f} m                │')
-        print(f'│  Theta: {theta_deg:>10.4f} °              │')
-        print(f'│         ({self.theta:>10.4f} rad)          │')
-        print(f'├────────────────────────────────────────┤')
-        print(f'│  Vel:   {self.velocity:>10.4f} m/s            │')
-        print(f'└────────────────────────────────────────┘')
-        # Mover cursor arriba para sobreescribir
-        print('\033[8A', end='')
 
+        print(f'\rPosición: X={self.x:.3f} Y={self.y:.3f} | Orientación: {theta_deg:.1f}° | Vel: {self.velocity:.3f}m/s   ', end='')
 
 def main(args=None):
     rclpy.init(args=args)
