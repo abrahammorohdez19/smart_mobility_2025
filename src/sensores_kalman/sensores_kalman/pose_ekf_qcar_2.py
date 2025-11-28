@@ -83,6 +83,14 @@ class PoseEstimator(Node):
         # Asumiendo que vector.x es la velocidad lineal del vehículo
         self.velocity = msg.vector.x
     
+    def normalize_angle(self, angle):
+        """Normaliza ángulo al rango [0, 2*pi]"""
+        while angle >= 2 * math.pi:
+            angle -= 2 * math.pi
+        while angle < 0:
+            angle += 2 * math.pi
+        return angle
+
     def imu_callback(self, msg: TwistStamped):
         """Callback del IMU - obtiene theta directamente (en radianes)"""
         raw_theta = msg.twist.angular.z
@@ -93,8 +101,8 @@ class PoseEstimator(Node):
             self.calibrated = True
             self.get_logger().info(f'✓ Theta calibrado! Offset: {math.degrees(self.theta_offset):.2f}°')
         
-        # Aplicar offset para que inicie en 0
-        self.theta_imu = raw_theta - self.theta_offset
+        # Aplicar offset y normalizar al rango [0, 2π]
+        self.theta_imu = self.normalize_angle(raw_theta - self.theta_offset)
     
     def update_pose(self):
         """Actualiza la pose integrando velocidad y yaw rate"""
