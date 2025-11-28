@@ -1,122 +1,102 @@
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Imu, LaserScan
-from geometry_msgs.msg import Vector3Stamped
-from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
+from sensor_msgs.msg import LaserScan
 import numpy as np
-import math
-import time
+import matplotlib.pyplot as plt
 
-class EKFFusion(Node):
+
+class LidarListener(Node):
     def __init__(self):
-        super().__init__('ekf_fusion_node')
+        super().__init__('lidar_listener_node')
 
-        # --- Estado inicial ---
-        self.x = np.zeros((4, 1))  # [x, y, theta, v]
-        self.P = np.eye(4) * 0.1
-        self.last_time = time.time()
-
-        # --- Ruido ---
-        self.Q = np.diag([0.01, 0.01, 0.02, 0.05])
-        self.R_imu = np.array([[0.02]])
-        self.R_vel = np.array([[0.05]])
-        self.R_lidar = np.diag([0.1, 0.1])
-
-        # --- QoS (compatible con Dashing) ---
-        qos = QoSProfile(
-            reliability=ReliabilityPolicy.RELIABLE,
+        # ==========================
+        #  CONFIGURACIÓN DE QoS
+        # ==========================
+        qos_lidar = QoSProfile(
+            reliability=ReliabilityPolicy.BEST_EFFORT,
             history=HistoryPolicy.KEEP_LAST,
-            depth=1
+            depth=10,
+            durability=DurabilityPolicy.VOLATILE
         )
 
-        # --- Suscriptores ---
-        self.create_subscription(Imu, '/qcar/imu', self.imu_cb, qos)
-        self.create_subscription(LaserScan, '/qcar/scan', self.lidar_cb, qos)
-        self.create_subscription(Vector3Stamped, '/qcar/velocity', self.vel_cb, qos)
+        # ==========================
+        #  SUSCRIPCIÓN AL LIDAR
+        # ==========================
+        self.create_subscription(
+            LaserScan,
+            '/qcar/scan',
+            self.lidar_callback,
+            qos_profile=qos_lidar
+        )
 
-        self.get_logger().info("EKF Fusion Node activo — IMU + LiDAR + Encoder")
+        # ==========================
+        #  TIMER DE 10 Hz (SYNC)
+        # ==========================
+        self.timer_period = 0.1  # 10 Hz
+        self.timer = self.create_timer(self.timer_period, self.timer_callback)
+        self.latest_scan = None  # Se actualizará con cada mensaje nuevo
 
-    # ==============================================================
-    def predict(self, omega, dt):
-        x, y, theta, v = self.x.flatten()
+        # ==========================
+        #  CONFIGURACIÓN DE GRÁFICA
+        # ==========================
+        plt.ion()
+        self.fig, self.ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.ax.set_title("Vista LiDAR QCar (10 Hz)", va='bottom')
+        self.ax.set_rmax(6.0)
+        self.scatter = None
 
-        # Modelo de movimiento (cinemática diferencial)
-        x_pred = x + v * math.cos(theta) * dt
-        y_pred = y + v * math.sin(theta) * dt
-        theta_pred = theta + omega * dt
-        v_pred = v
+        self.get_logger().info("📡 Nodo LidarListener activo: escuchando /qcar/scan a 10 Hz")
 
-        self.x = np.array([[x_pred], [y_pred], [theta_pred], [v_pred]])
+    # -----------------------------------------------------------
+    # CALLBACK del tópico: guarda el último escaneo recibido
+    # -----------------------------------------------------------
+    def lidar_callback(self, msg: LaserScan):
+        self.latest_scan = msg
 
-        # Jacobiano F
-        F = np.eye(4)
-        F[0, 2] = -v * math.sin(theta) * dt
-        F[0, 3] = math.cos(theta) * dt
-        F[1, 2] = v * math.cos(theta) * dt
-        F[1, 3] = math.sin(theta) * dt
+    # -----------------------------------------------------------
+    # TIMER: dibuja a 10 Hz el último mensaje recibido
+    # -----------------------------------------------------------
+    def timer_callback(self):
+        if self.latest_scan is not None:
+            self.plot_scan(self.latest_scan)
 
-        self.P = F @ self.P @ F.T + self.Q
-
-    # ==============================================================
-    def update(self, z, H, R):
-        y = z - H @ self.x
-        S = H @ self.P @ H.T + R
-        K = self.P @ H.T @ np.linalg.inv(S)
-        self.x += K @ y
-        self.P = (np.eye(len(self.x)) - K @ H) @ self.P
-
-    # ==============================================================
-    def imu_cb(self, msg):
-        now = time.time()
-        dt = now - self.last_time
-        self.last_time = now
-        omega = msg.angular_velocity.z
-        self.predict(omega, dt)
-
-    # ==============================================================
-    def vel_cb(self, msg):
-        v = msg.vector.x   # ✅ Así viene en el QCar físico
-        H = np.array([[0, 0, 0, 1]])
-        z = np.array([[v]])
-        self.update(z, H, self.R_vel)
-
-    # ==============================================================
-    def lidar_cb(self, msg):
-        ranges = np.array(msg.ranges)
+    # -----------------------------------------------------------
+    # DIBUJO POLAR (Radar)
+    # -----------------------------------------------------------
+    def plot_scan(self, msg: LaserScan):
+        ranges = np.array(msg.ranges, dtype=float)
         valid = np.isfinite(ranges)
+
         if not np.any(valid):
+            self.get_logger().warn("❌ LiDAR sin datos válidos")
             return
 
-        # Ángulos
-        angles = msg.angle_min + np.arange(len(ranges)) * msg.angle_increment
+        # Ángulos y distancias
+        angles = np.linspace(msg.angle_min, msg.angle_max, len(ranges))
+        ranges = np.clip(ranges, msg.range_min, msg.range_max)
 
-        # 🔧 Frente real del QCar ≈ -90° (ajustable)
-        front_angle = math.radians(-90)
-        front_idx = np.argmin(np.abs(angles - front_angle))
-        r = ranges[front_idx]
+        # Redibujo
+        self.ax.clear()
+        self.ax.scatter(angles[valid], ranges[valid], s=5, c='orange')
+        self.ax.set_theta_zero_location('N')
+        self.ax.set_theta_direction(-1)
+        self.ax.set_rmax(6.0)  # Escala máxima de 6 metros
+        self.ax.set_title("Vista LiDAR QCar (10 Hz)", va='bottom')
+        plt.pause(0.001)
 
-        if not np.isfinite(r):
-            return
-
-        # Coordenadas relativas
-        x_m = r * math.cos(angles[front_idx])
-        y_m = r * math.sin(angles[front_idx])
-
-        z = np.array([[x_m], [y_m]])
-        H = np.array([[1, 0, 0, 0],
-                      [0, 1, 0, 0]])
-
-        self.update(z, H, self.R_lidar)
-
-        self.get_logger().info(
-            f"x={self.x[0,0]:.2f}, y={self.x[1,0]:.2f}, θ={math.degrees(self.x[2,0]):.1f}°, v={self.x[3,0]:.2f}"
-        )
+        # Métricas básicas
+        d_min = np.min(ranges[valid])
+        d_mean = np.mean(ranges[valid])
+        self.get_logger().info(f"📏 Distancia mínima = {d_min:.2f} m | Promedio = {d_mean:.2f} m")
 
 
-# ==============================================================
+# -----------------------------------------------------------
+# MAIN
+# -----------------------------------------------------------
 def main(args=None):
     rclpy.init(args=args)
-    node = EKFFusion()
+    node = LidarListener()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
