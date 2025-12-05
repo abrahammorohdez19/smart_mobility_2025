@@ -51,8 +51,10 @@ setup(
         # 'qcar_ekf_vizualizer = sensores_kalman.qcar_ekf_vizualizer:main',
         # 'ekf_fusion_node_sinlidar = sensores_kalman.ekf_fusion_node_sinlidar:main'  
         'qcar_lidar_alert = sensores_kalman.qcar_lidar_alert:main',
-        'qcar_lidar_alert_2 = sensores_kalman.qcar_lidar_alert_2:main'
-    ],
+        'qcar_lidar_alert_2 = sensores_kalman.qcar_lidar_alert_2:main',
+        'trayectoria_grabar_csv= sensores_kalman.trayectoria_grabar_csv:main',
+        'pure_pursuit_node= sensores_kalman.pure_pursuit_node:main',
+        'qcar_watchdog_node= sensores_kalman.qcar_watchdog_node:main'    ],
 },
 )
 

@@ -26,7 +26,7 @@ class PathRecorder(Node):
         if not self.outfile:
             stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             #self.outfile = os.path.join(os.getcwd(), f'waypoints_v3{stamp}.csv')
-            self.outfile = os.path.join(os.getcwd(), f'waypoints_v3.csv')
+            self.outfile = os.path.join(os.getcwd(), f'waypoints_AMR_v1.csv')
 
         # Suscripción a /qcar/pose (Vector3Stamped)
         self.create_subscription(Vector3Stamped, topic, self.pose_cb, 10)
