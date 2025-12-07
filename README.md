@@ -1,4 +1,4 @@
-# Smart Mobility QCar ROS2
+# Smart Mobility 2025--Autonomous Driving in QCar1 and AMR1 implementing ROS2
 
 Proyecto académico para el desarrollo e integración de sensores del **Quanser QCar** en **ROS 2**.  
 Incluye filtros de **Kalman** (IMU, LiDAR y Encoder), así como un **Filtro de Kalman** para la fusión de sensores y estimación de pose del vehículo.
