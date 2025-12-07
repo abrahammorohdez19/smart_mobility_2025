@@ -1,3 +1,46 @@
+"""
+=======================================================================
+ Custom Interface Node - Smart Mobility Interface AMR Package (AMH19)
+ Author: AMH19
+ Co-author: Marmanja
+-----------------------------------------------------------------------
+ Node Name:
+     amr_odom
+
+ Description:
+     This node reads fused sensor data from an ESP32 (encoder + IMU)
+     through a serial interface and publishes a custom ROS2 message
+     "sm_interfaces/msg/Amr" into the topic /amr/odom.
+
+ Published Data:
+     • Pulses from encoder
+     • Distance travelled (meters)
+     • Velocity (m/s)
+     • Acceleration (X, Y, Z axes)
+     • Orientation (Roll, Pitch, Yaw) in degrees
+     
+ Purpose:
+     Provide odometry data for the AMR1 autonomous platform by
+     merging encoder-based linear motion with IMU orientation.
+     
+ Serial Input Format:
+     {
+       "pulsos": int,
+       "dist": float,
+       "vel": float,
+       "ax": float,
+       "ay": float,
+       "az": float,
+       "roll": float,
+       "pitch": float,
+       "yaw": float
+     }
+
+=======================================================================
+"""
+
+
+
 import rclpy
 from rclpy.node import Node
 from sm_interfaces.msg import Amr
@@ -6,18 +49,18 @@ import json
 
 class EncoderNode(Node):
     def __init__(self):
-        super().__init__('amr_odom')
+        super().__init__('amr_odom_19')
 
-        # === ABRIR SERIAL CON PYSERIAL ===
+        # === OPENING PYSERIAL TO GET DATA FROM ESP32 ===
         self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.1)
 
-        # === PUBLICADOR FLOAT64MULTIARRAY ===
+        # === PUBLISHER ===
         self.pub = self.create_publisher(Amr, '/amr/odom', 10)
 
-        # Timer a 50 ms
+        # Timer 50 ms
         self.timer = self.create_timer(0.05, self.leer_serial)
 
-        self.get_logger().info("Nodo /amr/odom iniciado leyendo ESP32 Encoder")
+        self.get_logger().info("Nodo /amr/odom iniciado leyendo ESP32 AMH19 Encoder-IMU")
 
     def leer_serial(self):
         try:
@@ -49,29 +92,15 @@ class EncoderNode(Node):
             msg.pitch = pitch
             msg.yaw = yaw
 
-            # HEADER
-            # msg.header.stamp = self.get_clock().now().to_msg()
-            # msg.header.frame_id = "odom_frame_amh19"
-
-            # Float64MultiArray data
-            # msg.data[0] = dist      # metros recorridos
-            # msg.data[1] = vel       # m/s
-            # msg.data[2] = pulsos    # pulsos totales
-            # msg.data[3] = ax        # aceleración en x
-            # msg.data[4] = ay        # aceleración en y
-            # msg.data[5] = az        # aceleración en z
-            # msg.data[6] = roll      # roll en grados
-            # msg.data[7] = pitch     # pitch en grados
-            # msg.data[8] = yaw       # yaw en grados
+         
 
             self.pub.publish(msg)
 
         except Exception as e:
-            self.get_logger().warn(f"Error al leer serial: {e}")
+            self.get_logger().warn(f"Error obtaining serial info: {e}")
 
 
 def main(args=None):
-    # Coautor: Git: Marmanja
     rclpy.init(args=args)
     node = EncoderNode()
     rclpy.spin(node)
