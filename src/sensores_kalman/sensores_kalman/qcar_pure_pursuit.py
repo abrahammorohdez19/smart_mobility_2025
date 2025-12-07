@@ -1,5 +1,6 @@
 # Pure Pursuit con modelo Ackermann para QCar físico usando ROS2
 # ROS2 + lógica Pure Pursuit + análisis y gráficas extendidas
+# Autor: Git: Marmanja
 
 import rclpy
 from rclpy.node import Node
@@ -507,6 +508,7 @@ class PurePursuitNode(Node):
         self.save_trajectory_csv(errors, out_dir, timestamp, tag)
 
 def main(args=None):
+    # marml 2025
     rclpy.init(args=args)
     node = PurePursuitNode()
     try:
