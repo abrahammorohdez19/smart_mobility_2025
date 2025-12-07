@@ -1,4 +1,5 @@
 # Nodo watchdog para asegurar STOP en el QCar si se dejan de publicar comandos
+# Autor: Git: Marmanja
 
 import rclpy
 from rclpy.node import Node
@@ -72,6 +73,7 @@ class QCarWatchdog(Node):
 
 
 def main(args=None):
+    # marml 2025
     rclpy.init(args=args)
     node = QCarWatchdog()
     try:
