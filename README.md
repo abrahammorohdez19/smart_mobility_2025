@@ -69,59 +69,101 @@ smart_mobility_2025/
 
 
 
-## Ejecución del sistema
+## System Launch
 
-**Lanzar sensores del QCar físico:**
+This workspace includes the full autonomous driving stack for the Quanser QCar1 and the AMR1 platform.  
+Below is the recommended launch sequence for running the QCar on real hardware.
+
+---
+
+### **Launch QCar sensor drivers**
+Starts all hardware interfaces (IMU, LiDAR, encoder, motor interface, camera if available).
+
 ```bash
-ros2 launch qcar qcar_launch_modified.py
+ros2 launch qcar qcar_launch_modified_aim_sm.py
+```
 
-2️Activar control mediante el gamepad Logitech F710:
+---
 
-ros2 run qcar command
+## Autonomous Stack Nodes
 
-3️Ejecutar el nodo de fusión EKF:
+### **Run QCar Pose Estimator**
+Integrates IMU + encoder commands to estimate pose \[x, y, θ\].
 
-ros2 run sensores_kalman ekf_fusion_node
+```bash
+ros2 run sensores_kalman pose_ekf_qcar_2
+```
 
-4️(Opcional) Ejecutar nodos individuales:
+### **Run Obstacle Detector (LiDAR-based)**
+Publishes `/qcar/obstacle_alert` when obstacles appear in the frontal cone.
 
+```bash
+ros2 run sensores_kalman qcar_lidar_alert_2
+```
+
+### **Run Watchdog Node**
+Ensures a STOP command is sent if `/qcar/user_command` stops publishing.
+
+```bash
+ros2 run sensores_kalman qcar_watchdog_node
+```
+
+---
+
+## **Pure Pursuit Controller (Autonomous Driving)**
+
+### **Run Pure Pursuit controller**
+This node computes the steering command based on the loaded trajectory and publishes automatic driving commands.
+
+For QCar:
+```bash
+ros2 run sensores_kalman qcar_pure_pursuit
+```
+
+For AMR:
+```bash
+ros2 run sensores_kalman amr_pure_pursuit
+```
+
+---
+
+## 🔍 Optional Individual Sensor Nodes
+
+Run only if you want to debug/visualize each sensor independently:
+
+### IMU Kalman Filter
+```bash
 ros2 run sensores_kalman imu_kalman_node
-ros2 run sensores_kalman lidar_qos_node
+```
 
-Descripción de los nodos
-Nodo	Descripción	Tópicos utilizados
-imu_kalman_node	Aplica un filtro de Kalman a los datos de la IMU para reducir ruido en aceleraciones y giros.	/qcar/imu
-lidar_qos_node	Lee el LiDAR a 10 Hz (QoS ajustado), aplica Kalman punto a punto y muestra los datos polares filtrados.	/qcar/scan
-ekf_fusion_node	Fusión de sensores (IMU + LiDAR + Encoder) mediante un Filtro de Kalman Extendido. Estima pose [x, y, θ, v].	/qcar/imu, /qcar/scan, /qcar/velocity
-velocity_listener	Nodo auxiliar para validar la lectura del encoder/velocidad.	/qcar/velocity
-Formulación del EKF
+### LiDAR visualization + QoS handling
+```bash
+ros2 run sensores_kalman lidar_kalman_node_amh19
+```
 
-Modelo de movimiento del QCar (cinemático):
-x˙=vcos⁡(θ),y˙=vsin⁡(θ),θ˙=ω,v˙=0
-x˙=vcos(θ),y˙​=vsin(θ),θ˙=ω,v˙=0
+### Record Trajectories to CSV
+```bash
+ros2 run sensores_kalman trayectoria_grabar_csv_node
+```
 
-Vector de estado:
-X=[x, y, θ, v]T
-X=[x,y,θ,v]T
+---
 
-Jacobiano del modelo (matriz F):
-F=[10−vsin⁡(θ) dtcos⁡(θ) dt01vcos⁡(θ) dtsin⁡(θ) dt00100001]
-F=
-​1000​0100​−vsin(θ)dtvcos(θ)dt10​cos(θ)dtsin(θ)dt01​
-​
+# Node Description Summary
 
-Covarianzas:
-Q=diag(0.01, 0.01, 0.02, 0.05)
-Q=diag(0.01,0.01,0.02,0.05)
-Rimu=[0.02],Rvel=[0.05],Rlidar=diag(0.1, 0.1)
-Rimu​=[0.02],Rvel​=[0.05],Rlidar​=diag(0.1,0.1)
-Visualización en tiempo real
+| Node | Description | Topics |
+|------|-------------|--------|
+| **qcar_pose** | Pose estimation from IMU + velocity | `/qcar/velocity`, `/qcar/user_command` |
+| **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command` |
+| **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`, `/qcar/obstacle_alert` |
+| **qcar_watchdog_node** | Safety node: forces STOP if command frequency drops | `/qcar/user_command` |
+| **imu_kalman_node** | IMU noise reduction using a Kalman filter | `/qcar/imu` |
+| **lidar_kalman_node_amh19** | LiDAR QoS + filtered visualization | `/qcar/scan` |
+| **ekf_fusion_node** | Extended Kalman Filter combining IMU + LiDAR + encoder | `/qcar/imu`, `/qcar/scan`, `/qcar/velocity` |
 
-    IMU: gráficas en tiempo real de aceleraciones crudas vs. filtradas.
+---
 
-    LiDAR: radar polar con datos en 360° y reducción de ruido.
 
-    EKF: impresión en consola de la estimación de pose y velocidad.
+
 
  Autor
 
