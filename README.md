@@ -14,7 +14,7 @@ Real-time filtering (Kalman)
 Autonomous navigation (Pure Pursuit, Ackermann model)
 
 Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
-ROS 2 nodes for state estimation, mapping, and control
+ROS2 (Humble) nodes for state estimation, mapping, and control
 
 
 ## Workspace Structure
@@ -60,7 +60,7 @@ smart_mobility_2025/
 │   │
 │   └── sm_interfaces/                       # Custom ROS2 interfaces (.msg)
 │
-├── team_amr/                                # Submodule: AMR team workspace
+├── team_amr/                                # Submodule: AMR team workspace firmware 
 │
 ├── LICENSE
 ├── README.md
