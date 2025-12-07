@@ -1,7 +1,7 @@
 """
 =======================================================================
  Custom Interface Node - Smart Mobility Interface AMR Package (AMH19)
- Author: AMH19
+ Author: Abraham Moro-Hernandez (AMH19)
  Co-author: Marmanja
 -----------------------------------------------------------------------
  Node Name:
