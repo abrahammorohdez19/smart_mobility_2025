@@ -2,8 +2,8 @@
 """
 =======================================================================
  Pure Pursuit Controller for Physical QCar using ROS2
- Author: Iván Valdez del Toro
- Co-author: Marmanja
+ Author: Marmanja
+ Co-author: Iván Valdez del Toro
 -----------------------------------------------------------------------
  Implements Ackermann-based Pure Pursuit tracking for the physical QCar,
  integrating ROS2 communication, obstacle-stop logic, dynamic lookahead,

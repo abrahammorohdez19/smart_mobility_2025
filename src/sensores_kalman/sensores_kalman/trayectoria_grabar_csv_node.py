@@ -3,7 +3,7 @@
 =======================================================================
  Path Recorder Node for QCar / AMR - Smart Mobility 
  Author: Marmanja
- Co-author: Iván Valdez del Toro
+ 
 -----------------------------------------------------------------------
  ROS2 node that subscribes to a Vector3Stamped pose topic (x, y, theta)
  and records the full robot trajectory into a CSV file. Useful for 

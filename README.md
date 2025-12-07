@@ -1,24 +1,57 @@
-# Smart Mobility QCar ROS2
+# Smart Mobility 2025--Autonomous Driving in QCar1 and AMR1 implementing ROS2
 
-Proyecto académico para el desarrollo e integración de sensores del **Quanser QCar** en **ROS 2**.  
-Incluye filtros de **Kalman** (IMU, LiDAR y Encoder), así como un **Filtro de Kalman** para la fusión de sensores y estimación de pose del vehículo.
+This repository contains the complete development workspace used to implement autonomous mobility solutions on two platforms (Quanser QCar1 and AMR1) as part of the Smart Mobility Concentration at Tecnológico de Monterrey, Campus Puebla (Aug–Dec 2025).
+
+Quanser QCar 1 (LiDAR, IMU, Encoders, Pure Pursuit controller)
+AMR1 Custom Vehicle (ESP32-based sensors, IMU + encoders, CAN-based, Pure Pursuit controller)
+
+The system includes:
+
+Sensor acquisition (IMU, LiDAR, Encoders)
+
+Real-time filtering (Kalman)
+
+Autonomous navigation (Pure Pursuit, Ackermann model)
+
+Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
+ROS 2 nodes for state estimation, mapping, and control
 
 ---
 
-## Estructura del workspace
-
-smart_mobility_qcar_ros2/
+smart_mobility_2025/
+│
 ├── src/
-│ ├── sensores_kalman/ # Paquete principal
-│ │ ├── imu_kalman_node.py # Filtro de Kalman individual para IMU
-│ │ ├── lidar_qos_node.py # Filtro de Kalman + QoS para LiDAR
-│ │ ├── ekf_fusion_node.py # Filtro de Kalman Extendido (fusión de sensores)
-│ │ └── velocity_listener.py # Nodo auxiliar para leer velocidad del QCar
-│ ├── qcar_description/ # URDF y descripción del vehículo
-│ ├── qcar_gazebo/ # Simulación del QCar en Gazebo
-│ └── otros_nodos/ # Scripts o utilidades adicionales
-├── build/
+│   ├── sensores_kalman/              # Sensor fusion + filtering (ROS2 package)
+│   │   ├── ekf_fusion_node.py        # EKF Sensor Fusion (IMU + LiDAR + Encoder)
+│   │   ├── imu_kalman_node.py        # IMU Kalman filter
+│   │   ├── lidar_qos_node.py         # LiDAR filtering + QoS
+│   │   └── velocity_listener.py      # Velocity monitoring node
+│   │
+│   ├── qcar/                         # QCar control & pose estimation
+│   │   ├── qcar_pose.py              # Bicycle-model estimator
+│   │   ├── pure_pursuit_qcar.py      # Pure Pursuit for QCar
+│   │   ├── qcar_watchdog.py          # Safety watchdog (STOP on timeout)
+│   │
+│   ├── amr/                          # AMR1 control nodes
+│   │   ├── amr_pose.py               # Pose estimator for AMR (IMU+encoder)
+│   │   ├── pure_pursuit_amr.py       # Pure Pursuit for AMR (CAN commands)
+│   │
+│   ├── qcar_description/             # QCar URDF + robot description
+│   ├── qcar_gazebo/                  # Simulation in Gazebo
+│   └── tools/                        # Utilities (path recorder, plotting tools)
+│
+├── hardware_instrumentation/         # ESP32 firmware (non-ROS)
+│   ├── imu/                          # BNO055 IMU firmware
+│   │   ├── imu_bo055_esp32.ino
+│   │   └── imu_bo055_esp32_ros2.ino
+│   ├── encoders/                     # Encoder firmware
+│   │   ├── contador_encoder_amh19.ino
+│   │   └── encoder_amr_amh19_pyserial.ino
+│   └── imu_encoder_amr_pyserial_amh19.ino
+│
+├── results/                          # Trajectory logs, plots and CSVs
 ├── install/
+├── build/
 └── log/
 
 
