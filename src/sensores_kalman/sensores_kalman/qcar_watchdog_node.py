@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Nodo watchdog para asegurar STOP en el QCar si se dejan de publicar comandos
 
 import rclpy
@@ -60,7 +59,7 @@ class QCarWatchdog(Node):
             # Publicar STOP solo si no lo hemos hecho recientemente
             stop = Vector3Stamped()
             stop.header.stamp = now.to_msg()
-            stop.header.frame_id = 'watchdog'  # para distinguirlo
+            stop.header.frame_id = 'watchdog' 
 
             stop.vector.x = 0.0
             stop.vector.y = 0.0
@@ -69,7 +68,6 @@ class QCarWatchdog(Node):
             try:
                 self.pub.publish(stop)
             except Exception:
-                # Por si el shutdown se cruza justo aquí
                 pass
 
 
