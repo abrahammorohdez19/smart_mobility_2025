@@ -1,6 +1,7 @@
 # Smart Mobility 2025--Autonomous Driving in QCar1 and AMR1 implementing ROS2
 
-This repository contains the full development workspace used to implement autonomous mobility solutions in two platforms:
+This repository contains the complete development workspace used to implement autonomous mobility solutions on two platforms (Quanser QCar1 and AMR1) as part of the Smart Mobility Concentration at Tecnológico de Monterrey, Campus Puebla (Aug–Dec 2025).
+
 Quanser QCar 1 (LiDAR, IMU, Encoders, Pure Pursuit controller)
 AMR1 Custom Vehicle (ESP32-based sensors, IMU + encoders, CAN-based, Pure Pursuit controller)
 
