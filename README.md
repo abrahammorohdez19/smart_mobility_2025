@@ -1,7 +1,19 @@
 # Smart Mobility 2025--Autonomous Driving in QCar1 and AMR1 implementing ROS2
 
-Proyecto académico para el desarrollo e integración de sensores del **Quanser QCar** en **ROS 2**.  
-Incluye filtros de **Kalman** (IMU, LiDAR y Encoder), así como un **Filtro de Kalman** para la fusión de sensores y estimación de pose del vehículo.
+This repository contains the full development workspace used to implement autonomous mobility solutions in two platforms:
+Quanser QCar 1 (LiDAR, IMU, Encoders, Pure Pursuit controller)
+AMR1 Custom Vehicle (ESP32-based sensors, IMU + encoders, CAN-based, Pure Pursuit controller)
+
+The system includes:
+
+Sensor acquisition (IMU, LiDAR, Encoders)
+
+Real-time filtering (Kalman)
+
+Autonomous navigation (Pure Pursuit, Ackermann model)
+
+Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
+ROS 2 nodes for state estimation, mapping, and control
 
 ---
 
