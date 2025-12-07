@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
-# Pure Pursuit con modelo Ackermann usando datos del OptiTrack (QCar físico)
-# Versión combinada: ROS2 + lógica Pure Pursuit estilo TargetCourse + análisis y gráficas extendidas
-# fusion Ivan y Mariana 27 Junio 2025
+# Pure Pursuit con modelo Ackermann para QCar físico usando ROS2
+# ROS2 + lógica Pure Pursuit + análisis y gráficas extendidas
 
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Vector3Stamped
+from std_msgs.msg import Bool
 
 import math
 import csv
@@ -15,10 +14,6 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-# ==========================
-# CLASES AUXILIARES (PPState, TargetCourse)
-# ==========================
 
 class PPState:
     """Estado mínimo del vehículo para Pure Pursuit."""
@@ -35,7 +30,7 @@ class PPState:
 
 
 class TargetCourse:
-    """Trayectoria + búsqueda del índice objetivo como en el script de simulación."""
+    """Trayectoria + búsqueda del índice objetivo para Pure Pursuit."""
     def __init__(self, path_points, k_gain, base_lookahead):
         self.cx = [p[0] for p in path_points]
         self.cy = [p[1] for p in path_points]
@@ -45,10 +40,9 @@ class TargetCourse:
 
     def search_target_index(self, state: PPState):
         """
-        Implementa la misma lógica del código de Ivan:
         1) Busca punto más cercano
         2) Desde ahí avanza mientras la distancia disminuya
-        3) Calcula Lf dinámico = k * v + Lfc
+        3) Calcula Lf dinámico = k * v + Lfc (realmente no se usa dinámico por falta de retroalimentación de velocidad real)
         4) Busca el punto al menos a Lf de distancia
         """
         if self.old_nearest_point_index is None:
@@ -64,7 +58,6 @@ class TargetCourse:
             ind = self.old_nearest_point_index
             distance_this = state.calc_distance(self.cx[ind], self.cy[ind])
 
-            # Avanzar mientras ir adelante acerque más al robot
             while ind + 1 < len(self.cx):
                 distance_next = state.calc_distance(self.cx[ind + 1], self.cy[ind + 1])
                 if distance_this < distance_next:
@@ -74,11 +67,11 @@ class TargetCourse:
 
             self.old_nearest_point_index = ind
 
-        # Lookahead dinámico
+        # Lookahead
         v = max(state.v, 0.0)
         Lf = self.k * v + self.Lfc
 
-        # Buscar punto objetivo con al menos distancia Lf
+        # Buscar punto objetivo con al menos Lf de distancia 
         target_ind = ind
         while target_ind < len(self.cx) - 1:
             dist = state.calc_distance(self.cx[target_ind], self.cy[target_ind])
@@ -98,38 +91,30 @@ class PurePursuitNode(Node):
         super().__init__('pure_pursuit_node')
 
         # ----------------- PARÁMETROS -----------------
-        self.declare_parameter('path_csv', '')
+        self.declare_parameter('path_csv', '')            # ruta al CSV del path
         # Parámetros para generar trayectoria circular (si no se usa CSV)
         self.declare_parameter('circle_radius', 0.8)      # radio del círculo (m)
         self.declare_parameter('circle_points', 300)      # número de puntos
 
-        # Parámetros de Pure Pursuit (equivalentes al segundo script)
-        self.declare_parameter('lookahead', 0.15)         # Lfc
-        self.declare_parameter('k_gain', 0.4)             # k (look forward gain)
-        self.declare_parameter('v_ref', 0.05)             # m/s
+        # Parámetros de Pure Pursuit
+        self.declare_parameter('lookahead', 0.1)         # Lf
+        self.declare_parameter('k_gain', 0.8)            # k (look forward gain)
+        self.declare_parameter('v_ref', 0.065)           # m/s
 
         # Ackermann
         self.declare_parameter('wheelbase', 0.256)
-        self.declare_parameter('max_steer_deg', 25.0)
-        self.declare_parameter('max_omega', 2.0)
 
         path_csv = self.get_parameter('path_csv').get_parameter_value().string_value
         self.lookahead = self.get_parameter('lookahead').get_parameter_value().double_value
         self.v_ref = self.get_parameter('v_ref').get_parameter_value().double_value
         self.k_gain = self.get_parameter('k_gain').get_parameter_value().double_value
-
         self.L = self.get_parameter('wheelbase').get_parameter_value().double_value
-        max_steer_deg = self.get_parameter('max_steer_deg').get_parameter_value().double_value
-        self.max_steer = math.radians(max_steer_deg)
-        self.max_omega = self.get_parameter('max_omega').get_parameter_value().double_value
 
         # Límite de steering del QCar (user_command.y)
         self.max_steer_cmd = 0.5  # rad
+        self.paro = False
 
-        # Timeout de pose
-        #self.pose_timeout = 0.2  # [s] sin recibir /qcar/pose -> STOP
-
-        # ----------------- CARGA DEL PATH -----------------
+        # --------------- CONDICIONES PATH -----------------
         if path_csv.strip():
             self.path = self.load_path(path_csv)
         else:
@@ -141,7 +126,6 @@ class PurePursuitNode(Node):
             self.get_logger().info(f'Path cargado/generado con {len(self.path)} puntos')
             self.get_logger().info(f"Primeros 5 puntos path: {self.path[:5]}")
 
-        # TargetCourse con lógica del segundo script
         if self.path:
             self.target_course = TargetCourse(self.path, self.k_gain, self.lookahead)
         else:
@@ -154,7 +138,7 @@ class PurePursuitNode(Node):
         self.generated_trajectory = []
         self.last_objective = None
 
-        # Logs adicionales para gráficas (estilo segundo script)
+        # Logs para gráficas 
         self.log_t = []
         self.log_x = []
         self.log_y = []
@@ -163,11 +147,10 @@ class PurePursuitNode(Node):
 
         # Tiempo de inicio
         self.start_time = self.get_clock().now()
-
         # Para timeout de pose
         self.last_pose_time = self.get_clock().now()
 
-        # Subscripciones / Publicaciones
+        # --------- Subscripciones / Publicaciones ---------
         self.pose_sub = self.create_subscription(
             Vector3Stamped,
             '/qcar/pose',
@@ -181,10 +164,16 @@ class PurePursuitNode(Node):
             10
         )
 
+        self.paro_sub = self.create_subscription(
+            Bool,
+            '/qcar/obstacle_alert',
+            self.paro_callback,
+            10
+        )
+
         # Timer 50 Hz
         self.timer = self.create_timer(0.02, self.control_loop)
-
-        self.get_logger().info("PurePursuitNode físico (versión combinada) iniciado.")
+        self.get_logger().info("PurePursuitNode físico iniciado.")
 
     # ----------------- CARGA DEL PATH (/qcar/pose) -----------------
     def load_path(self, csv_file):
@@ -211,43 +200,7 @@ class PurePursuitNode(Node):
         self.get_logger().info(f'Path simple cargado con {len(path_points)} puntos')
         return path_points
     
-    #  # ----------------- CARGA DEL PATH (OptiTrack) -----------------
-    # def load_path(self, csv_file):
-    #     path_points = []
-    #     if not csv_file:
-    #         self.get_logger().warn('No se especificó path_csv')
-    #         return path_points
-
-    #     p = Path(csv_file)
-    #     if not p.exists():
-    #         self.get_logger().error(f'CSV no encontrado: {csv_file}')
-    #         return path_points
-
-    #     with p.open('r') as f:
-    #         reader = csv.reader(f)
-
-    #         # Saltar encabezado de Motive (igual que antes)
-    #         for _ in range(7):
-    #             next(reader, None)
-
-    #         for row in reader:
-    #             if not row or len(row) < 8:
-    #                 continue
-    #             try:
-    #                 X_opt = float(row[5])
-    #                 Z_opt = float(row[7])
-
-    #                 # Mapeo OptiTrack -> ROS (ajusta signo según cómo lo veas en RViz)
-    #                 x_ros = Z_opt
-    #                 y_ros = X_opt  # si necesitas invertir, usar y_ros = -X_opt
-
-    #                 path_points.append((x_ros, y_ros))
-    #             except ValueError:
-    #                 continue
-
-    #     self.get_logger().info(f'Path cargado con {len(path_points)} puntos (load_path)')
-    #     return path_points
-
+    # ----------------- GENERACIÓN DE PATH CIRCULAR -----------------
     def generate_circle_path(self):
         R = self.get_parameter('circle_radius').get_parameter_value().double_value
         N = int(self.get_parameter('circle_points').get_parameter_value().integer_value)
@@ -260,7 +213,7 @@ class PurePursuitNode(Node):
 
         path_points = []
         for i in range(N):
-            theta = 2.0 * math.pi * i / N  # [0, 2pi)
+            theta = 2.0 * math.pi * i / N 
             x = cx + R * math.cos(theta)
             y = cy + R * math.sin(theta)
             path_points.append((x, y))
@@ -275,40 +228,49 @@ class PurePursuitNode(Node):
         self.current_pose = msg
         self.last_pose_time = self.get_clock().now()
 
+    # ----------------- CALLBACK PARO -----------------
+    def paro_callback(self, msg: Bool):
+        """
+        Recibe /qcar/obstacle_alert:
+        - True  -> hay obstáculo -> activar paro
+        - False -> no hay obstáculo -> seguir
+        """
+        old = self.paro
+        self.paro = bool(msg.data)
+
+        if self.paro != old:
+            if self.paro:
+                self.get_logger().warn("Obstáculo detectado por LiDAR: activando PARO.")
+            else:
+                self.get_logger().info("Obstáculo despejado: reanudando movimiento.")
+
+
     # ----------------- CONTROL LOOP (ACKERMANN + PP) -----------------
     def control_loop(self):
 
         now = self.get_clock().now()
 
-        # 1) Si no hay pose o no hay path -> no hacemos nada
+        # Si no hay pose o no hay path -> no hacemos nada
         if self.current_pose is None or not self.path or self.target_course is None:
             return
 
-        # # Timeout de pose
-        # dt_pose = (now.nanoseconds - self.last_pose_time.nanoseconds) * 1e-9
-        # if dt_pose > self.pose_timeout:
-        #     self.get_logger().warn_once("Timeout de /qcar/pose, deteniendo QCar.")
-        #     self.stop_qcar()
-        #     return
+        # Si el lidar detecta obstaculo -> STOP
+        if self.paro:
+            self.stop_qcar()
+            return
 
         # Extraer pose actual
         x_r = self.current_pose.vector.x
         y_r = self.current_pose.vector.y
-        yaw = self.current_pose.vector.z   # yaw del imu en rad
+        yaw = self.current_pose.vector.z   # IMU en rad
 
         # Actualizar estado para Pure Pursuit (usamos v_ref como velocidad "actual")
         self.state.xr = x_r
         self.state.yr = y_r
         self.state.theta = yaw
+
         self.state.v = abs(self.v_ref)
-
-        # ---- Pure Pursuit con TargetCourse (segundo script) ----
         delta = self.compute_pure_pursuit_delta()
-
-        # Modelo bicicleta -> velocidad angular equivalente (solo info)
-        w_cmd = (self.v_ref / self.L) * math.tan(delta)
-        if abs(w_cmd) > self.max_omega:
-            w_cmd = math.copysign(self.max_omega, w_cmd)
 
         # Saturar steering al rango del QCar
         steer_cmd = delta
@@ -322,9 +284,8 @@ class PurePursuitNode(Node):
         cmd.header.stamp = now.to_msg()
         cmd.header.frame_id = 'base_link'
         cmd.vector.x = float(self.v_ref)    # velocidad adelante
-        cmd.vector.y = float(-steer_cmd)     # steering [-0.3, 0.3] rad
+        cmd.vector.y = float(-steer_cmd)     # steering [-0.5, 0.5] rad
         cmd.vector.z = 0.0
-
         self.pub.publish(cmd)
 
         # Registrar trayectoria (para error, gráficos y análisis)
@@ -339,11 +300,8 @@ class PurePursuitNode(Node):
         self.log_v.append(self.v_ref)
 
     def compute_pure_pursuit_delta(self):
-        """
-        Implementa pure_pursuit_steer_control Ivan,
-        usando self.state y self.target_course.
-        """
-        # 1) Índice objetivo y Lf dinámico
+    
+        # Índice objetivo y dinámico
         ind, Lf = self.target_course.search_target_index(self.state)
 
         # No permitir ir hacia atrás en el índice
@@ -352,11 +310,11 @@ class PurePursuitNode(Node):
 
         self.target_ind = ind
 
-        # 2) Punto objetivo
+        # Punto objetivo
         tx = self.target_course.cx[ind]
         ty = self.target_course.cy[ind]
         
-        # 3) Distancia al objetivo (solo info)
+        # Distancia al objetivo (solo info)
         dist_to_target = self.state.calc_distance(tx, ty)
         if self.last_objective is None or ind != self.last_objective:
                 self.last_objective = ind
@@ -365,21 +323,14 @@ class PurePursuitNode(Node):
                     f"distancia={dist_to_target:.3f} m | Lf={Lf:.3f} m"
                 )
 
-        # 4) Ángulo alpha
+        # Ángulo alpha
         alpha = math.atan2(ty - self.state.yr, tx - self.state.xr) - self.state.theta
         # Normalizar alpha a [-pi, pi]
         alpha = math.atan2(math.sin(alpha), math.cos(alpha))
 
-        # 5) Steering pure pursuit
+        # Steering pure pursuit
         Lf = max(Lf, 1e-3)
         delta = math.atan2(2.0 * self.L * math.sin(alpha), Lf)
-
-        # # 6) Saturar al ángulo máximo geométrico
-        # if delta > self.max_steer:
-        #     delta = self.max_steer
-        # elif delta < -self.max_steer:
-        #     delta = -self.max_steer
-
         return delta
 
     # ----------------- STOP -----------------
@@ -428,7 +379,7 @@ class PurePursuitNode(Node):
         sim10 = self.calculate_similarity_percentage(errors, tol2)
         std = float(np.std(errors))
 
-        # Evaluación cualitativa (igual que el primer código)
+        # Evaluación cualitativa
         if avg_error < 0.05:
             assessment = "EXCELENTE"
             color = "\033[92m"  # Verde
@@ -497,48 +448,22 @@ class PurePursuitNode(Node):
             self.report_performance(avg_error, max_error, errors)
 
         # Carpeta de salida
-        out_dir = Path.home() / 'qcar_workspace' / 'OptiTrack' / 'src' / 'resultados' / 'pure_pursuit_fisico'
+        out_dir = Path.home() / 'qcar_workspace' / 'OptiTrack' / 'src' / 'resultados' / 'pure_pursuit_fisico_expo_v7'
         out_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         tag = f"L{self.lookahead}_V{self.v_ref}_k{self.k_gain}"
 
-        # -------- FIGURA 1: Trayectoria + Error (como el primer código) --------
-        fig1 = plt.figure(figsize=(12, 5))
-        ax1 = fig1.add_subplot(1, 2, 1)
-        ax1.plot(exp_x, exp_y, label="Referencia", linewidth=2)
-        ax1.plot(gen_x, gen_y, label="Real", linewidth=2)
-        if len(gen_x) > 1:
-            ax1.scatter(gen_x[0], gen_y[0], s=120, c='green', marker='o', label='Inicio real')
-            ax1.scatter(gen_x[-1], gen_y[-1], s=120, c='red', marker='x', label='Final real')
-
-        ax1.axis('equal')
-        ax1.grid(True)
-        ax1.legend()
-        ax1.set_title("Trayectoria referencia vs real")
-        ax1.set_xlabel("X [m]")
-        ax1.set_ylabel("Y [m]")
-
-        if errors:
-            ax2 = fig1.add_subplot(1, 2, 2)
-            ax2.plot(errors)
-            ax2.set_title("Error de seguimiento (punto a punto)")
-            ax2.set_xlabel("Índice de muestra")
-            ax2.set_ylabel("Error [m]")
-            ax2.grid(True)
-
-        fig_path1 = out_dir / f"trayectoria_{timestamp}_{tag}.png"
-        fig1.savefig(fig_path1, dpi=300)
-        plt.close(fig1)
-        print(f"Gráfica de trayectoria guardada en: {fig_path1}")
-
-        # -------- FIGURA 2: Estilo segundo script (velocidad y yaw vs tiempo) --------
+        # -------- FIGURA: velocidad y yaw vs tiempo --------
         if self.log_t:
             fig2, axes = plt.subplots(2, 2, figsize=(12, 10))
 
             # 1) Trayectorias
             axes[0, 0].plot(exp_x, exp_y, '-r', label='Referencia', linewidth=2)
             axes[0, 0].plot(gen_x, gen_y, '-b', label='Real', linewidth=1.5)
+            if len(gen_x) > 1:
+                axes[0, 0].scatter(gen_x[0], gen_y[0], s=120, c='green', marker='o', label='Inicio real')
+                axes[0, 0].scatter(gen_x[-1], gen_y[-1], s=120, c='red', marker='x', label='Final real')
             axes[0, 0].set_xlabel('X [m]')
             axes[0, 0].set_ylabel('Y [m]')
             axes[0, 0].set_title('Comparación de trayectorias')
@@ -581,25 +506,17 @@ class PurePursuitNode(Node):
         # Guardar CSV detallado
         self.save_trajectory_csv(errors, out_dir, timestamp, tag)
 
-
 def main(args=None):
     rclpy.init(args=args)
     node = PurePursuitNode()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        #node.get_logger().info("Ctrl+C recibido, deteniendo QCar y cerrando nodo.")
         pass
     finally:
-        # try:
-        #     node.stop_qcar()
-        # except Exception as e:
-        #     node.get_logger().warn(f"No se pudo enviar STOP en shutdown: {e}")
-
         node.plot_results()
         node.destroy_node()
         rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
