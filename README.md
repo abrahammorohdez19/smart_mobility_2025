@@ -17,28 +17,29 @@ Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
 ROS 2 nodes for state estimation, mapping, and control
 
 ---
+#Workspace Structure
 smart_mobility_2025/
 │
-├── Data/                              # Dataset de trayectorias, análisis y CSVs reales del AMR/QCar
-│   ├── amr_pure_pursuit/              # Resultados de Pure Pursuit en AMR
-│   ├── qcar_expo_pure_pursuit/        # Resultados de pruebas del QCar
-│   └── qcar_pure_pursuit/             # Métricas y trayectorias del QCar
+├── Data/                                   # Real datasets: trajectories, CSV logs, metrics, experiment results
+│   ├── amr_pure_pursuit/                   # AMR Pure Pursuit logs (plots + CSVs)
+│   ├── qcar_expo_pure_pursuit/             # QCar results from the Expo demonstration
+│   └── qcar_pure_pursuit/                  # QCar Pure Pursuit experiments + metrics
 │
-├── hardware_instrumentation/          # Firmware para microcontroladores (ESP32/Arduino)
-│   ├── encoders/                      # Lectura de encoders del AMR/QCar
+├── hardware_instrumentation/               # Firmware for microcontrollers (ESP32 / Arduino)
+│   ├── encoders/                           # Raw encoder acquisition for AMR / QCar
 │   │   ├── contador_encoder_amh19.ino
 │   │   └── encoder_amr_amh19_pyserial.ino
 │   │
-│   ├── imu/                           # Lectura raw de IMU y variantes ROS2
+│   ├── imu/                                # IMU acquisition (different ESP32 variants)
 │   │   ├── imu_bo055_esp32.ino
 │   │   └── imu_bo055_esp32_ros2.ino
 │   │
-│   └── imu_encoder_amr_pyserial_amh19.ino   # Firmware combinado IMU + encoder (AMR)
+│   └── imu_encoder_amr_pyserial_amh19.ino  # Combined IMU + encoder firmware (AMR)
 │
-├── src/                               # Paquetes ROS2 del workspace
-│   ├── sensores_kalman/               # Principal paquete ROS2 del proyecto
+├── src/                                    # ROS2 packages for the entire workspace
+│   ├── sensores_kalman/                    # Main ROS2 package (sensors + EKF + Pure Pursuit)
 │   │   ├── resource/
-│   │   ├── sensores_kalman/           # Nodos ROS2 reales
+│   │   ├── sensores_kalman/                # All ROS2 nodes implemented for the project
 │   │   │   ├── amr_encoder_amh19.py
 │   │   │   ├── amr_imu_encoder.py
 │   │   │   ├── amr_pure_pursuit.py
@@ -51,14 +52,14 @@ smart_mobility_2025/
 │   │   │   ├── qcar_watchdog_node.py
 │   │   │   └── trayectoria_grabar_csv_node.py
 │   │   │
-│   │   ├── test/                      # Utils, pruebas unitarias
+│   │   ├── test/                           # Utilities, unit tests, dev scripts
 │   │   ├── package.xml
 │   │   ├── setup.cfg
 │   │   └── setup.py
 │   │
-│   └── sm_interfaces/                 # Interfaces ROS2 personalizadas (.msg)
+│   └── sm_interfaces/                      # Custom ROS2 interfaces (.msg)
 │
-├── team_amr/ (submodule)              # Repositorio del resto del equipo (AMR—Movilidad Inteligente)
+├── team_amr/  (submodule)                  # ROS2 repository from the rest of the AMR development team
 │
 ├── LICENSE
 ├── README.md
