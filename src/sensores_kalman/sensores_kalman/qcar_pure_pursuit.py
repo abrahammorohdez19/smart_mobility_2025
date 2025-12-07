@@ -449,7 +449,7 @@ class PurePursuitNode(Node):
             self.report_performance(avg_error, max_error, errors)
 
         # Carpeta de salida
-        out_dir = Path.home() / 'qcar_workspace' / 'OptiTrack' / 'src' / 'resultados' / 'pure_pursuit_fisico_expo_v7'
+        out_dir = Path.home() / 'Workspaces' / 'smart_mobility_qcar_ros2' / 'resultados' / 'pure_pursuit_qcar' # Lugar donde guarda las gráficas y csv 
         out_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
