@@ -6,7 +6,7 @@ import json
 
 class EncoderNode(Node):
     def __init__(self):
-        super().__init__('amr_odom_amh19')
+        super().__init__('amr_odom')
 
         # === ABRIR SERIAL CON PYSERIAL ===
         self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.1)
@@ -17,7 +17,7 @@ class EncoderNode(Node):
         # Timer a 50 ms
         self.timer = self.create_timer(0.05, self.leer_serial)
 
-        self.get_logger().info("Nodo /amr/odom (AMR_Interface_19) iniciado leyendo AMH19 ESP32 Encoder")
+        self.get_logger().info("Nodo /amr/odom iniciado leyendo ESP32 Encoder")
 
     def leer_serial(self):
         try:
