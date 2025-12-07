@@ -16,8 +16,8 @@ Autonomous navigation (Pure Pursuit, Ackermann model)
 Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
 ROS 2 nodes for state estimation, mapping, and control
 
----
-#Workspace Structure
+
+# Workspace Structure
 smart_mobility_2025/
 │
 ├── Data/                                   # Real datasets: trajectories, CSV logs, metrics, experiment results
@@ -65,8 +65,6 @@ smart_mobility_2025/
 ├── README.md
 └── .gitignore
 
-
----
 
 ## Ejecución del sistema
 
