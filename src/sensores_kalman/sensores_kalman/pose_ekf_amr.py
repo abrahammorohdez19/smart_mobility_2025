@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 =======================================================================
- Custom Interface Node - Smart Mobility Interface AMR Package (AMH19)
+ AMR Pose Node - Smart Mobility 
  Author: Abraham Moro-Hernandez (AMH19)
 -----------------------------------------------------------------------
  Pose Estimator for AMR Platform
