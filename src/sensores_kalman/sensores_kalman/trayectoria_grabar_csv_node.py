@@ -1,5 +1,6 @@
 # Nodo ROS2 para grabar la trayectoria del Qcar o AMR en un CSV
 # Suscribe a un tópico de tipo Vector3Stamped (x,y,theta) y guarda los puntos en un archivo CSV al finalizar la ejecución.
+# Autor: Git: Marmanja
 # Qcar -> /qcar/pose
 # AMR  -> /amr/pose
 
@@ -62,6 +63,7 @@ class PathRecorder(Node):
             self.get_logger().error(f'Error guardando CSV: {e}')
 
 def main():
+    # marml 2025
     rclpy.init()
     node = PathRecorder()
     try:
