@@ -1,3 +1,8 @@
+# Nodo ROS2 para grabar la trayectoria del Qcar o AMR en un CSV
+# Suscribe a un tópico de tipo Vector3Stamped (x,y,theta) y guarda los puntos en un archivo CSV al finalizar la ejecución.
+# Qcar -> /qcar/pose
+# AMR  -> /amr/pose
+
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Vector3Stamped
@@ -13,7 +18,8 @@ class PathRecorder(Node):
     def __init__(self):
         super().__init__('path_recorder')
         # Parámetros
-        self.declare_parameter('topic', '/qcar/pose')
+        self.declare_parameter('topic', '/amr/pose') # tópico  para AMR
+        #self.declare_parameter('topic', '/qcar/pose') # tópico para Qcar
         #self.declare_parameter('min_spacing', 0.2)  # m
         self.declare_parameter('outfile', '')       # por defecto: cwd/waypoints_YYYYMMDD_HHMMSS.csv
 
@@ -25,10 +31,9 @@ class PathRecorder(Node):
 
         if not self.outfile:
             stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            #self.outfile = os.path.join(os.getcwd(), f'waypoints_v3{stamp}.csv')
-            self.outfile = os.path.join(os.getcwd(), f'waypoints_AMR_v1.csv')
+            self.outfile = os.path.join(os.getcwd(), f'waypoints{stamp}.csv')
 
-        # Suscripción a /qcar/pose (Vector3Stamped)
+        # Suscripción a (Vector3Stamped)
         self.create_subscription(Vector3Stamped, topic, self.pose_cb, 10)
 
         # Guardar al salir
