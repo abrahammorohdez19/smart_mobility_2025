@@ -71,6 +71,7 @@ class EncoderNode(Node):
 
 
 def main(args=None):
+    # Coautor: Git: Marmanja
     rclpy.init(args=args)
     node = EncoderNode()
     rclpy.spin(node)
