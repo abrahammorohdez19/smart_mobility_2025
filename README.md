@@ -17,46 +17,53 @@ Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
 ROS 2 nodes for state estimation, mapping, and control
 
 ---
-
 smart_mobility_2025/
 │
-├── src/
-│   ├── sensores_kalman/              # Sensor fusion + filtering (ROS2 package)
-│   │   ├── ekf_fusion_node.py        # EKF Sensor Fusion (IMU + LiDAR + Encoder)
-│   │   ├── imu_kalman_node.py        # IMU Kalman filter
-│   │   ├── lidar_qos_node.py         # LiDAR filtering + QoS
-│   │   └── velocity_listener.py      # Velocity monitoring node
-│   │
-│   ├── qcar/                         # QCar control & pose estimation
-│   │   ├── qcar_pose.py              # Bicycle-model estimator
-│   │   ├── pure_pursuit_qcar.py      # Pure Pursuit for QCar
-│   │   ├── qcar_watchdog.py          # Safety watchdog (STOP on timeout)
-│   │
-│   ├── amr/                          # AMR1 control nodes
-│   │   ├── amr_pose.py               # Pose estimator for AMR (IMU+encoder)
-│   │   ├── pure_pursuit_amr.py       # Pure Pursuit for AMR (CAN commands)
-│   │
-│   ├── qcar_description/             # QCar URDF + robot description
-│   ├── qcar_gazebo/                  # Simulation in Gazebo
-│   └── tools/                        # Utilities (path recorder, plotting tools)
+├── Data/                              # Dataset de trayectorias, análisis y CSVs reales del AMR/QCar
+│   ├── amr_pure_pursuit/              # Resultados de Pure Pursuit en AMR
+│   ├── qcar_expo_pure_pursuit/        # Resultados de pruebas del QCar
+│   └── qcar_pure_pursuit/             # Métricas y trayectorias del QCar
 │
-├── hardware_instrumentation/         # ESP32 firmware (non-ROS)
-│   ├── imu/                          # BNO055 IMU firmware
-│   │   ├── imu_bo055_esp32.ino
-│   │   └── imu_bo055_esp32_ros2.ino
-│   ├── encoders/                     # Encoder firmware
+├── hardware_instrumentation/          # Firmware para microcontroladores (ESP32/Arduino)
+│   ├── encoders/                      # Lectura de encoders del AMR/QCar
 │   │   ├── contador_encoder_amh19.ino
 │   │   └── encoder_amr_amh19_pyserial.ino
-│   └── imu_encoder_amr_pyserial_amh19.ino
+│   │
+│   ├── imu/                           # Lectura raw de IMU y variantes ROS2
+│   │   ├── imu_bo055_esp32.ino
+│   │   └── imu_bo055_esp32_ros2.ino
+│   │
+│   └── imu_encoder_amr_pyserial_amh19.ino   # Firmware combinado IMU + encoder (AMR)
 │
-├── results/                          # Trajectory logs, plots and CSVs
-├── install/
-├── build/
-└── log/
+├── src/                               # Paquetes ROS2 del workspace
+│   ├── sensores_kalman/               # Principal paquete ROS2 del proyecto
+│   │   ├── resource/
+│   │   ├── sensores_kalman/           # Nodos ROS2 reales
+│   │   │   ├── amr_encoder_amh19.py
+│   │   │   ├── amr_imu_encoder.py
+│   │   │   ├── amr_pure_pursuit.py
+│   │   │   ├── lidar_kalman_node_amh19.py
+│   │   │   ├── pose_ekf_amr.py
+│   │   │   ├── pose_ekf_qcar_2.py
+│   │   │   ├── pose_final_qcar.py
+│   │   │   ├── qcar_lidar_alert_2.py
+│   │   │   ├── qcar_pure_pursuit.py
+│   │   │   ├── qcar_watchdog_node.py
+│   │   │   └── trayectoria_grabar_csv_node.py
+│   │   │
+│   │   ├── test/                      # Utils, pruebas unitarias
+│   │   ├── package.xml
+│   │   ├── setup.cfg
+│   │   └── setup.py
+│   │
+│   └── sm_interfaces/                 # Interfaces ROS2 personalizadas (.msg)
+│
+├── team_amr/ (submodule)              # Repositorio del resto del equipo (AMR—Movilidad Inteligente)
+│
+├── LICENSE
+├── README.md
+└── .gitignore
 
-
-> 🔹 Solo la carpeta `src/` se versiona.  
-> Las carpetas `build/`, `install/` y `log/` se excluyen mediante `.gitignore`.
 
 ---
 
