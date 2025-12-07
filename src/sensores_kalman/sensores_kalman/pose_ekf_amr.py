@@ -127,7 +127,7 @@ class PoseEstimator(Node):
         # ═══════════════════════════════════════════════════════════
         pose_msg = Vector3Stamped()
         pose_msg.header.stamp = current_time.to_msg()
-        pose_msg.header.frame_id = 'amr_odom19'
+        pose_msg.header.frame_id = 'amr_odom'
         pose_msg.vector.x = self.x
         pose_msg.vector.y = self.y
         pose_msg.vector.z = self.theta  # Theta en radianes
