@@ -242,20 +242,6 @@ class PurePursuitNode(Node):
 
         return path_points
 
-    def generate_circle_path(self):
-        """Generates a circular path."""
-        R = self.get_parameter('circle_radius').value
-        N = int(self.get_parameter('circle_points').value)
-
-        path_points = []
-        for i in range(N):
-            theta = 2.0 * math.pi * i / N
-            x = R * math.cos(theta)
-            y = R * math.sin(theta) + R
-            path_points.append((x, y))
-
-        return path_points
-
     def generate_sine_path(self):
         """Generates a sine-wave reference path."""
         length = self.get_parameter('sine_length').value
