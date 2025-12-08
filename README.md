@@ -220,7 +220,7 @@ ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/rou
 ![AMR1 Connections](Media/AMR1_conections.png)
 
 ---
-## Development & Execution Environment
+# Development & Execution Environment
 
 This project was developed and tested using a combination of high-performance laptops and embedded hardware to ensure reliable real-time autonomy for both QCar1 and AMR1 platforms.
 
@@ -314,11 +314,69 @@ For those taking over this AMR project, please note these essential points:
 
 ### **Pedro**
 
+---
+
+# Smart Mobility Concentration Team 2025 — Professors & QCar1 / AMR1 Platforms
+
+Below is the 2025 Smart Mobility Concentration team together with the professors and collaborators who supported the development of QCar1 and AMR1 autonomous driving systems.
+
+From left to right in the photo:
+PhD. Hugo Gonzalez-Hernandez, Pedro, Alfonso, Franco, Yonathan, Abraham, PhD. Daniel Sosa-Ceron, Iván, Mariana, MSc. Julio, Alexander, PhD. Jorge Reyes.
 
 ![Smart Mobility Concentration Team 2025](Media/Team_SM25.png)
 
 
-## Authors
+## Team Roles & Technical Contributions
+
+Project Leadership & Autonomous Systems
+
+Abraham Moro Hernández – Project Leader
+Responsible for the complete integration of autonomous mobility in QCar1 and AMR1, including ROS2 architecture, sensor fusion pipelines, controllers, hardware instrumentation, ESP32 firmware, and systems instrumentation.
+
+Iván – Co-Leader
+Coordinated ROS2 nodes, EKF development, software architecture, and Pure Pursuit controllers.
+
+Mariana – Autonomous Systems Engineer
+Worked on ROS2 nodes, calibration pipelines, hardware integration, control tuning, and testing of both QCar1 and AMR1.
+
+AMR1 Rehabilitation & Embedded Control Team
+
+Franco – Embedded Systems / CANBus Lead
+Rehabilitated AMR1 wiring, designed CAN bus communication, actuator control, and microcontroller integration.
+
+Yonathan – Motor Control & Sensor Integration
+Assisted in AMR1 drive system calibration, encoder instrumentation, and control-layer testing.
+
+Pedro – Documentation
+Supported documentation of AMR1.
+
+
+## Research Support
+
+MSc. Julio (PhD Student)
+Advised on state estimation, Kalman filtering, and control strategies.
+
+Alexander (PhD Student)
+Provided support for system modeling, ROS2 best practices, and experimental procedure design.
+
+Alfonso (Robotics Student)
+Collaborated in testing sessions and instrumentation support.
+
+
+## Faculty Advisors
+
+The project was guided by the professors of the Smart Mobility Concentration:
+
+PhD. Hugo Gonzalez-Hernandez – Robotics & Control
+
+PhD. Daniel Sosa-Ceron – Robotics & Control
+
+PhD. Jorge Reyes – Autonomous Vehicles Platforms
+
+Their mentorship shaped the engineering criteria, methodology, and technical rigor of the project.
+
+---
+# Authors
 
 Abraham Moro-Hernandez
 Tecnologico de Monterrey – Campus Puebla
