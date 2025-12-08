@@ -215,7 +215,7 @@ ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/rou
 | **amr_imu_encoder** | Odometry estimation from IMU + Encoder | Gets data via Pyserial from ESP32 |`/amr/odom`|
 | **pose_ekf_amr** | Pose estimation from IMU + Encoder \[x, y, θ\] | `/amr/odom`| `/amr/pose` |
 | **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amr/pose`| None |
-| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/amr/pose` | None |
+| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/amr/pose` | Writes data via Pyserial to ESP32 and CAN Bus  |
 
 ![AMR1 Connections](Media/AMR1_conections.png)
 
@@ -333,21 +333,21 @@ Project Leadership & Autonomous Systems
 Abraham Moro Hernández – Project Leader
 Responsible for the complete integration of autonomous mobility in QCar1 and AMR1, including ROS2 architecture, sensor fusion pipelines, calibration pipelines, hardware instrumentation and integration and ESP32 firmware.
 
-Iván – Co-Leader
+Iván Valdez del Toro – Co-Leader
 Coordinated ROS2 nodes, hardware integration, software architecture, and Pure Pursuit controllers.
 
-Mariana – Autonomous Systems Engineer
+Mariana Manjarrez Lima – Autonomous Systems Engineer
 Worked on ROS2 nodes, calibration pipelines, control tuning, and testing of both QCar1 and AMR1.
 
 AMR1 Rehabilitation & Embedded Control Team
 
-Franco – Embedded Systems / CANBus Lead
+Franco Abraham Díez – Embedded Systems / CANBus Lead
 Rehabilitated AMR1 wiring, designed CAN bus communication, actuator control, mechanical design and manufacturing.
 
-Yonathan – Motor Control & Sensor Integration
+Yonathan Romero Amador – Motor Control & Sensor Integration
 Assisted in AMR1 instrumentation, PCB Design for AMR1 systems and and microcontroller integration.
 
-Pedro – Documentation
+Pedro García Millán – Documentation
 Supported documentation of AMR1.
 
 
@@ -406,7 +406,7 @@ E-mail:
 Pedro García Millán
 Tecnologico de Monterrey – Campus Puebla
 --Smart Mobility Concentration-- 
-LinkedIn www.linkedin.com/in/pedro-garcia-millan
+LinkedIn http://www.linkedin.com/in/pedrogarciaoooo
 
 
 
