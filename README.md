@@ -177,15 +177,25 @@ ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/ro
 
 ---
 
-# Node Description Summary
+# QCar1 Node Description Summary
 
 | Node | Description | Subscribes | Publishes |
 |------|-------------|------------|-----------|
-| **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/qcar/imu` | `/qcar/pose`|
+| **imu_external** | Node running in QCar1 from IMU BNO055 | N/A | `/imu/accel_raw`, `/imu/data` |
+| **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/imu/accel_raw` | `/qcar/pose`|
 | **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`| `/qcar/obstacle_alert` |
 | **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command`, `/qcar/obstacle_alert`| None |
 | **qcar_watchdog_node** | Safety node: forces STOP if command frequency drops | `/qcar/user_command` | None |
-| **lidar_kalman_node_amh19** | LiDAR QoS + filtered visualization | `/qcar/scan` | None |
+| **lidar_kalman_node_amh19** | Qcar1  LiDAR + filtered visualization | `/qcar/scan` | None |
+
+# AMR1 Node Description Summary
+
+| Node | Description | Subscribes | Publishes |
+|------|-------------|------------|-----------|
+| **amr_imu_encoder** | Odometry estimation from IMU + Encoder | N/A |`/amr/odom`|
+| **pose_ekf_amr** | Pose estimation from IMU + Encoder \[x, y, θ\] | `/amr/odom`| `/amr/pose` |
+| **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amrr/pose`| None |
+
 
 ---
 ## Development & Execution Environment
