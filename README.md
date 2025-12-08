@@ -82,7 +82,13 @@ Start the connection with the QCar (you must be connected to the same Network).
 ```bash
 ssh -X nvidia@192.168.1.X
 ```
-Starts all hardware interfaces (IMU, LiDAR, encoder, motor interface, camera if available).
+To launch the QCar Superuser permissions are needed.
+
+```bash
+sudo -s
+```
+
+Starts all hardware interfaces (IMU, LiDAR, encoder, Steering control).
 
 ```bash
 ros2 launch qcar qcar_launch_sm_aim.py
@@ -200,6 +206,8 @@ ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/rou
 | **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/qcar/pose` | None |
 | **lidar_kalman_node_amh19** | Qcar1  LiDAR + filtered visualization | `/qcar/scan` | None |
 
+![QCar1 RQT Graph](Media/Qcar_nodes.png)
+
 # AMR1 Node Description Summary
 
 | Node | Description | Subscribes | Publishes |
@@ -209,6 +217,7 @@ ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/rou
 | **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amr/pose`| None |
 | **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/amr/pose` | None |
 
+![AMR1 Connections](Media/AMR1_conections.png)
 
 ---
 ## Development & Execution Environment
@@ -288,7 +297,9 @@ I want to tell you that whatever reason you decided to continue this project, ho
 If you are about to start this project, I want to tell you something that I would have liked to hear: don't get frustrated when the simulation fails, when the real car doesn't follow the trajectory, or when the controllers seem to break down for no reason. It's part of the process, keep trying. Every error, every graph, and every failed attempt brings you closer to a deeper understanding of the system, so document everything. Before they ask you to, be clear about what you are doing and why. There comes a moment when everything starts to make sense: the curves, the parameters, the delays, the odometry. Trust your judgment, measure, experiment, try again. This project has a steep learning curve, but it becomes very rewarding. You too can achieve it and improve on what we did.
 
 ### **Iván**
-This project was really challenging in every part, the transformation and the knowledge are fundamental things. Without any doubt this project will complement you like a future engineer.
+For all the students who wish to continue with the project, I want you to keep in mind that it is not something simple; on the contrary, it is an ambitious and challenging project that pushes you to bring out the best in yourself at every moment. I know that at the beginning you may feel disoriented or lost, but that is part of the learning curve. It is essential that you research, ask questions, and learn as much as you can, and above all, that you understand what is done in each process.
+It is a challenging project from every perspective; resilience, adaptability, and continuous learning are key elements for developing it. Without a doubt, it is a project that helps you grow as a future engineer: you will have to develop several skills throughout the process in order to work effectively with others.
+In the end, you will realize that all the work and effort were worth it, because the reward is unmatched. I want you to enjoy the process and reflect on everything you learned—where you started and how you finished.
 
 ### **Franco**
 For those taking over this AMR project, please note these essential points:
@@ -304,6 +315,7 @@ For those taking over this AMR project, please note these essential points:
 ### **Pedro**
 
 
+![Smart Mobility Concentration Team 2025](Media/Team_SM25.png)
 
 
 ## Authors
@@ -321,7 +333,7 @@ E-mail: marianamanjarrezlima@gmail.com
 Iván Valdéz del Toro
 Tecnologico de Monterrey – Campus Puebla
 --Smart Mobility Concentration-- 
-LinkedIn https://www.linkedin.com/in/ivan-valdez-069730365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
+LinkedIn http://www.linkedin.com/in/ivan-valdez-del-toro
 
 Franco Abraham Díez
 Tecnologico de Monterrey – Campus Puebla
