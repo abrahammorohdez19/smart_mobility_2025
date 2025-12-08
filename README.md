@@ -338,7 +338,7 @@ E-mail: marianamanjarrezlima@gmail.com
 Iván Valdéz del Toro
 Tecnologico de Monterrey – Campus Puebla
 --Smart Mobility Concentration-- 
-E-mail: 
+LinkedIn https://www.linkedin.com/in/ivan-valdez-069730365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
 
 Franco Abraham Díez
 Tecnologico de Monterrey – Campus Puebla
