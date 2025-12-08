@@ -292,6 +292,7 @@ Integrated hardware instrumentation
 Firmware was placed under:
 hardware_instrumentation/
 
+---
 ## A message for future innovators
 
 This section is dedicated to future generations of students, researchers, and developers who choose to continue building upon this project.
