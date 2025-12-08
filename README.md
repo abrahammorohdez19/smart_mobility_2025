@@ -180,7 +180,7 @@ ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/ro
 # Node Description Summary
 
 | Node | Description | Subscribes | Publishes |
-|------|-------------|--------|--------|
+|------|-------------|------------|-----------|
 | **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/qcar/imu` | `/qcar/pose`|
 | **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`| `/qcar/obstacle_alert` |
 | **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command`, `/qcar/obstacle_alert`| None |
