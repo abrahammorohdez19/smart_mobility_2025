@@ -192,7 +192,7 @@ ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/rou
 
 | Node | Description | Subscribes | Publishes |
 |------|-------------|------------|-----------|
-| **imu_external** | Node running in QCar1 from IMU BNO055 | None | `/imu/accel_raw`, `/imu/data` |
+| **imu_external** | Node running in QCar1 from IMU BNO055 | Gets data via Pyserial from ESP32 | `/imu/accel_raw`, `/imu/data` |
 | **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/imu/accel_raw` | `/qcar/pose`|
 | **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`| `/qcar/obstacle_alert` |
 | **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/obstacle_alert`| `/qcar/user_command` |
@@ -204,7 +204,7 @@ ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/rou
 
 | Node | Description | Subscribes | Publishes |
 |------|-------------|------------|-----------|
-| **amr_imu_encoder** | Odometry estimation from IMU + Encoder | None |`/amr/odom`|
+| **amr_imu_encoder** | Odometry estimation from IMU + Encoder | Gets data via Pyserial from ESP32 |`/amr/odom`|
 | **pose_ekf_amr** | Pose estimation from IMU + Encoder \[x, y, θ\] | `/amr/odom`| `/amr/pose` |
 | **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amr/pose`| None |
 | **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/amr/pose` | None |
