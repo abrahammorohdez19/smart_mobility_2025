@@ -75,7 +75,13 @@ Below is the recommended launch sequence for running the QCar on real hardware.
 
 ---
 
-### **Launch QCar sensor drivers**
+### **Launch QCar**
+
+Start the connection with the QCar (you must be connected to the same Network).
+
+```bash
+ssh -X nvidia@192.168.1.X
+```
 Starts all hardware interfaces (IMU, LiDAR, encoder, motor interface, camera if available).
 
 ```bash
@@ -145,6 +151,12 @@ ros2 run qcar command
 ```
 
 ## Autonomous Stack Nodes for AMR1
+
+Start the connection with the AMR1 (you must be connected to the same Network).
+
+```bash
+ssh -X traxxas@10.42.0.XX
+```
 
 ### **Run AMR1 Odometry**
 Integrates IMU + encoder data and publishes in a custom interface \[pulses, velocity, distance, acceleration in X, Y, Z and roll, pitch, yaw\].
@@ -270,6 +282,7 @@ This section is dedicated to future generations of students, researchers, and de
 Below you may find personal messages, lessons learned, and advice from each team member to help guide the next stage of innovation.
 
 ### **Abraham**
+I want to tell you that, for whatever reason you decided to continue this project, you must have that purpose with you through the whole process, as a personal advise, at first understand what you need to do, and how can you do it, study, learn and ask all those questions, once you understand the most and have completely understand the problem, you can start solving it or looking for errors, enjoy the process, enjoy the challenges, have a great time with your team and never forget your objective. This project will make you a much better engineer, suffering comes with it too, but every single working hour is totally valuable. At the end when you think you lose hope and nothing works, reflect on how you started the project, who you were, and now how that person has changed along the challenge, enjoy it!.
 
 ### **Mariana**
 
