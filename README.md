@@ -292,38 +292,46 @@ Integrated hardware instrumentation
 Firmware was placed under:
 hardware_instrumentation/
 
-## A message for those who innovates:
+## A message for future innovators
+
+This section is dedicated to future generations of students, researchers, and developers who choose to continue building upon this project.
+Below you may find personal messages, lessons learned, and advice from each team member to help guide the next stage of innovation.
+
+### **Iván**
+This project was really challenging in every part, the transformation and the knowledge are fundamental things. Without any doubt this project will complement you like a future engineer.
+
+
 
 ## Authors
 
 Abraham Moro-Hernandez
 Tecnologico de Monterrey – Campus Puebla
-Smart Mobility Concentration 
+--Smart Mobility Concentration-- 
 LinkedIn www.linkedin.com/in/abraham-moro-hernandez-amh19
 
 Mariana Manjarrez Lima
 Tecnologico de Monterrey – Campus Puebla
-Smart Mobility Concentration 
+--Smart Mobility Concentration-- 
 E-mail: marianamanjarrezlima@gmail.com
 
 Iván Valdéz del Toro
 Tecnologico de Monterrey – Campus Puebla
-Smart Mobility Concentration 
+--Smart Mobility Concentration-- 
 E-mail: 
 
 Franco Abraham Díez
 Tecnologico de Monterrey – Campus Puebla
-Smart Mobility Concentration 
+--Smart Mobility Concentration-- 
 LinkedIn www.linkedin.com/in/franco-abraham-diez
 
 Yonathan Romero Amador
 Tecnologico de Monterrey – Campus Puebla
-Smart Mobility Concentration 
+--Smart Mobility Concentration-- 
 E-mail:
 
 Pedro García Millán
 Tecnologico de Monterrey – Campus Puebla
-Smart Mobility Concentration 
+--Smart Mobility Concentration-- 
 LinkedIn www.linkedin.com/in/pedro-garcia-millan
 
 
