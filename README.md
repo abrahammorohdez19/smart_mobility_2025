@@ -297,8 +297,28 @@ hardware_instrumentation/
 This section is dedicated to future generations of students, researchers, and developers who choose to continue building upon this project.
 Below you may find personal messages, lessons learned, and advice from each team member to help guide the next stage of innovation.
 
+### **Abraham**
+
+### **Mariana**
+
+If you are about to start this project, I want to tell you something that I would have liked to hear: don't get frustrated when the simulation fails, when the real car doesn't follow the trajectory, or when the controllers seem to break down for no reason. It's part of the process, keep trying. Every error, every graph, and every failed attempt brings you closer to a deeper understanding of the system, so document everything. Before they ask you to, be clear about what you are doing and why. There comes a moment when everything starts to make sense: the curves, the parameters, the delays, the odometry. Trust your judgment, measure, experiment, try again. This project has a steep learning curve, but it becomes very rewarding. You too can achieve it and improve on what we did.
+
 ### **Iván**
 This project was really challenging in every part, the transformation and the knowledge are fundamental things. Without any doubt this project will complement you like a future engineer.
+
+### **Franco**
+For those taking over this AMR project, please note these essential points:
+* Patience is Key: The system can become unstable or fail with prolonged use.
+* Safety First (48V+): Exercise extreme caution; the system handles voltages exceeding 48V.
+* Wiring Caution: Be extremely careful with the cables when changing or adding components.
+* Testing Safety: Always use slow mode for physical tests to prevent damage from collisions.
+* Support: Enjoy the project!
+
+### **Yonathan**
+
+
+### **Pedro**
+
 
 
 
