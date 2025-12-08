@@ -122,10 +122,6 @@ class PurePursuitNode(Node):
         self.declare_parameter('steer_max_deg', 15.0)
         self.declare_parameter('wheelbase', 1.5)
 
-        # Circle path parameters
-        self.declare_parameter('circle_radius', 3)
-        self.declare_parameter('circle_points', 800)
-
         # Sine wave path parameters
         self.declare_parameter('sine_length', 6.0)
         self.declare_parameter('sine_points', 800)
@@ -462,7 +458,7 @@ class PurePursuitNode(Node):
         if errors:
             self.report_performance(avg_error, max_error, errors)
 
-        out_dir = Path.home() / 'Workspaces' / 'smart_mobility_qcar_ros2' / 'results' / 'pure_pursuit_amr'
+        out_dir = Path.home() / 'Workspaces' / 'smart_mobility_2025' / 'results' / 'pure_pursuit_amr'
         out_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

@@ -21,7 +21,7 @@ from std_msgs.msg import Bool
 import math
 import csv
 from pathlib import Path
-from datetime_timedate import datetime
+from datetime import datetime
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -415,7 +415,7 @@ class PurePursuitNode(Node):
         if errors:
             self.report_performance(avg_error, max_error, errors)
 
-        out_dir = Path.home() / 'Workspaces' / 'smart_mobility_qcar_ros2' / 'resultados' / 'pure_pursuit_qcar'
+        out_dir = Path.home() / 'Workspaces' / 'smart_mobility_2025' / 'resultados' / 'pure_pursuit_qcar'
         out_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
