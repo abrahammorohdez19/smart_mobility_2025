@@ -84,7 +84,7 @@ ros2 launch qcar qcar_launch_sm_aim.py
 
 ---
 
-## Autonomous Stack Nodes
+## Autonomous Stack Nodes for QCar1
 
 ### **Run QCar Pose Estimator**
 Integrates IMU + encoder commands to estimate pose \[x, y, θ\].
@@ -114,7 +114,6 @@ ros2 run sensores_kalman qcar_watchdog_node
 ### **Run Pure Pursuit controller**
 This node computes the steering command based on the loaded trajectory and publishes automatic driving commands.
 
-For QCar:
 ```bash
 ros2 run sensores_kalman pure_pursuit_node
 ```
@@ -123,13 +122,6 @@ creates a circular trajectory if none waypoints.csv are loaded.
 ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/route/name_trajectory.csv
 ```
 ros2 Comman to load a recorded trajectory.
-
-
-For AMR:
-```bash
-ros2 run sensores_kalman amr_pure_pursuit
-```
-creates a sinewave trajectory if none waypoints.csv are loaded.
 
 ---
 
@@ -151,6 +143,34 @@ and command node has to run for Qcar trayectories
 ```bash
 ros2 run qcar command
 ```
+
+## Autonomous Stack Nodes for AMR1
+
+### **Run AMR1 Odometry**
+Integrates IMU + encoder data and publishes in a custom interface \[pulses, velocity, distance, acceleration in X, Y, Z and roll, pitch, yaw\].
+
+```bash
+ros2 run sensores_kalman amr_imu_encoder
+```
+### **Run AMR1 Pose Estimator**
+Integrates IMU + encoder commands to estimate pose \[x, y, θ\].
+
+```bash
+ros2 run sensores_kalman amr_pose_ekf_amr
+```
+
+## **Pure Pursuit Controller (Autonomous Driving)**
+
+### **Run Pure Pursuit controller**
+This node computes the steering command based on the loaded trajectory and publishes automatic driving commands.
+
+```bash
+ros2 run sensores_kalman amr_pure_pursuit
+```
+creates a sinewave trajectory if none waypoints.csv are loaded.
+
+---
+
 ---
 
 # Node Description Summary
