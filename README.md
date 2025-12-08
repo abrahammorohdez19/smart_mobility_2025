@@ -321,7 +321,7 @@ For those taking over this AMR project, please note these essential points:
 Below is the 2025 Smart Mobility Concentration team together with the professors and collaborators who supported the development of QCar1 and AMR1 autonomous driving systems.
 
 From left to right in the photo:
-PhD. Hugo Gonzalez-Hernandez, Pedro, Alfonso, Franco, Yonathan, Abraham, PhD. Daniel Sosa-Ceron, Iván, Mariana, MSc. Julio, Alexander, PhD. Jorge Reyes.
+PhD. Hugo Gonzalez-Hernandez, Pedro, Alfonso, Franco, Yonathan, Abraham, PhD. Daniel Sosa-Ceron, Iván, Alexander, Mariana, MSc. Julio, PhD. Jorge Reyes.
 
 ![Smart Mobility Concentration Team 2025](Media/Team_SM25.png)
 
@@ -331,21 +331,21 @@ PhD. Hugo Gonzalez-Hernandez, Pedro, Alfonso, Franco, Yonathan, Abraham, PhD. Da
 Project Leadership & Autonomous Systems
 
 Abraham Moro Hernández – Project Leader
-Responsible for the complete integration of autonomous mobility in QCar1 and AMR1, including ROS2 architecture, sensor fusion pipelines, controllers, hardware instrumentation, ESP32 firmware, and systems instrumentation.
+Responsible for the complete integration of autonomous mobility in QCar1 and AMR1, including ROS2 architecture, sensor fusion pipelines, calibration pipelines, hardware instrumentation and integration and ESP32 firmware.
 
 Iván – Co-Leader
-Coordinated ROS2 nodes, EKF development, software architecture, and Pure Pursuit controllers.
+Coordinated ROS2 nodes, hardware integration, software architecture, and Pure Pursuit controllers.
 
 Mariana – Autonomous Systems Engineer
-Worked on ROS2 nodes, calibration pipelines, hardware integration, control tuning, and testing of both QCar1 and AMR1.
+Worked on ROS2 nodes, calibration pipelines, control tuning, and testing of both QCar1 and AMR1.
 
 AMR1 Rehabilitation & Embedded Control Team
 
 Franco – Embedded Systems / CANBus Lead
-Rehabilitated AMR1 wiring, designed CAN bus communication, actuator control, and microcontroller integration.
+Rehabilitated AMR1 wiring, designed CAN bus communication, actuator control, mechanical design and manufacturing.
 
 Yonathan – Motor Control & Sensor Integration
-Assisted in AMR1 drive system calibration, encoder instrumentation, and control-layer testing.
+Assisted in AMR1 instrumentation, PCB Design for AMR1 systems and and microcontroller integration.
 
 Pedro – Documentation
 Supported documentation of AMR1.
@@ -357,10 +357,10 @@ MSc. Julio (PhD Student)
 Advised on state estimation, Kalman filtering, and control strategies.
 
 Alexander (PhD Student)
-Provided support for system modeling, ROS2 best practices, and experimental procedure design.
+Provided support for system modeling, and AMR1 intrumentation.
 
 Alfonso (Robotics Student)
-Collaborated in testing sessions and instrumentation support.
+Collaborated in testing sessions.
 
 
 ## Faculty Advisors
