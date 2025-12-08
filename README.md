@@ -156,7 +156,7 @@ ros2 run sensores_kalman amr_imu_encoder
 Integrates IMU + encoder commands to estimate pose \[x, y, θ\].
 
 ```bash
-ros2 run sensores_kalman amr_pose_ekf_amr
+ros2 run sensores_kalman pose_ekf_amr
 ```
 
 ## **Pure Pursuit Controller (Autonomous Driving)**
@@ -170,7 +170,7 @@ ros2 run sensores_kalman amr_pure_pursuit
 ```
 ROS2 Command to load a recorded trajectory.
 ```bash
-ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/route/name_trajectory.csv
+ros2 run sensores_kalman amr_pure_pursuit --ros-args -p path_csv:=/home/user/route/name_trajectory.csv
 ```
 
 ---
@@ -184,9 +184,9 @@ ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/ro
 | **imu_external** | Node running in QCar1 from IMU BNO055 | None | `/imu/accel_raw`, `/imu/data` |
 | **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/imu/accel_raw` | `/qcar/pose`|
 | **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`| `/qcar/obstacle_alert` |
-| **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command`, `/qcar/obstacle_alert`| None |
-| **qcar_watchdog_node** | Safety node: forces STOP if command frequency drops | `/qcar/user_command` | None |
-| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | None | None |
+| **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/obstacle_alert`| `/qcar/user_command` |
+| **qcar_watchdog_node** | Safety node: forces STOP if command frequency drops | `/qcar/user_command` | `/qcar/user_command` |
+| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/qcar/pose` | None |
 | **lidar_kalman_node_amh19** | Qcar1  LiDAR + filtered visualization | `/qcar/scan` | None |
 
 # AMR1 Node Description Summary
@@ -196,7 +196,7 @@ ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/ro
 | **amr_imu_encoder** | Odometry estimation from IMU + Encoder | None |`/amr/odom`|
 | **pose_ekf_amr** | Pose estimation from IMU + Encoder \[x, y, θ\] | `/amr/odom`| `/amr/pose` |
 | **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amr/pose`| None |
-| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | None | None |
+| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | `/amr/pose` | None |
 
 
 ---
@@ -207,73 +207,48 @@ This project was developed and tested using a combination of high-performance la
 ### **Main Development Machine**
 
 All ROS2 nodes, Pure Pursuit controllers, EKF estimators, and integration pipelines were developed and executed on:
-
-ASUS ROG Strix G16
-
+### *ASUS ROG Strix G16
 CPU: Intel Core i9
-
 GPU: NVIDIA RTX 4060
-
 RAM: 32 GB
-
 Storage: 1 TB NVMe SSD
-
 OS: Ubuntu 22.04 LTS
-
 Middleware: ROS2 Humble 
 
 This machine was used to run:
-
 All ROS 2 launch files
-
 Real-time QCar teleoperation
-
 Pure Pursuit & control nodes
-
 Sensor fusion (IMU, LiDAR, encoder)
-
 
 ### **Supporting Development Laptop**
 
 A secondary system was also used for testing, debugging and remote execution:
 
-ASUS TUF Gaming (Ryzen)
+### *ASUS TUF Gaming (Ryzen)
 
 CPU: AMD Ryzen Series
-
 GPU: NVIDIA RTX series
-
 RAM: 16 GB
-
 OS (host): Windows 11
-
 WSL2 Distribution: Ubuntu 22.04 LTS
 
 Used for Pure Pursuit and control nodes
 Dataset generation, visualization, and analysis
 
-
-
 ### **Embedded Computing for AMR1**
 
 To support autonomous navigation and sensor acquisition for the AMR1 platform, a dedicated embedded system was used:
 
-NVIDIA Jetson Orin Developer Kit
+### *NVIDIA Jetson Orin Nano Developer Kit
 
 ARM64 architecture
-
 Hosted ROS 2 nodes for IMU, encoders and Pure Pursuit
-
 Executed firmware communication with ESP32 microcontrollers
-
 Used as the on-board brain for:
-
 Low-latency sensor acquisition
-
 Hardware-level filtering
-
 Real-time control loops
-
 CAN / serial integration
 
 
@@ -282,13 +257,9 @@ CAN / serial integration
 A set of ESP32 microcontrollers was used for:
 
 Encoder acquisition
-
 IMU acquisition
-
 Serial and CAN communication
-
 Integrated hardware instrumentation
-
 Firmware was placed under:
 hardware_instrumentation/
 
