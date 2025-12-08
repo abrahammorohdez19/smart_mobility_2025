@@ -149,21 +149,20 @@ and command node has to run for Qcar trayectories
 ```bash
 ros2 run qcar command
 ```
-
-## Autonomous Stack Nodes for AMR1
+### **Launch AMR1**
 
 Start the connection with the AMR1 (you must be connected to the same Network).
 
 ```bash
 ssh -X traxxas@10.42.0.XX
 ```
-
-### **Run AMR1 Odometry**
-Integrates IMU + encoder data and publishes in a custom interface \[pulses, velocity, distance, acceleration in X, Y, Z and roll, pitch, yaw\].
+Starts all hardware interface (runs AMR1 Odometry), integrates IMU + encoder data and publishes in a custom interface \[pulses, velocity, distance, acceleration in X, Y, Z and roll, pitch, yaw\].
 
 ```bash
 ros2 run sensores_kalman amr_imu_encoder
 ```
+## Autonomous Stack Nodes for AMR1
+
 ### **Run AMR1 Pose Estimator**
 Integrates IMU + encoder commands to estimate pose \[x, y, θ\].
 
