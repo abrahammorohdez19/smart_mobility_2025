@@ -258,9 +258,9 @@ Integrated hardware instrumentation
 Firmware was placed under:
 hardware_instrumentation/
 
+## A message for those who innovates:
 
-
- Autor
+## Authors
 
 Abraham Moro Hernández
 Tecnológico de Monterrey – Campus Puebla
