@@ -181,20 +181,22 @@ ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/ro
 
 | Node | Description | Subscribes | Publishes |
 |------|-------------|------------|-----------|
-| **imu_external** | Node running in QCar1 from IMU BNO055 | N/A | `/imu/accel_raw`, `/imu/data` |
+| **imu_external** | Node running in QCar1 from IMU BNO055 | None | `/imu/accel_raw`, `/imu/data` |
 | **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/imu/accel_raw` | `/qcar/pose`|
 | **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`| `/qcar/obstacle_alert` |
 | **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command`, `/qcar/obstacle_alert`| None |
 | **qcar_watchdog_node** | Safety node: forces STOP if command frequency drops | `/qcar/user_command` | None |
+| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | None | None |
 | **lidar_kalman_node_amh19** | Qcar1  LiDAR + filtered visualization | `/qcar/scan` | None |
 
 # AMR1 Node Description Summary
 
 | Node | Description | Subscribes | Publishes |
 |------|-------------|------------|-----------|
-| **amr_imu_encoder** | Odometry estimation from IMU + Encoder | N/A |`/amr/odom`|
+| **amr_imu_encoder** | Odometry estimation from IMU + Encoder | None |`/amr/odom`|
 | **pose_ekf_amr** | Pose estimation from IMU + Encoder \[x, y, θ\] | `/amr/odom`| `/amr/pose` |
-| **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amrr/pose`| None |
+| **amr_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/amr/pose`| None |
+| **trayectoria_grabar_csv_node** | Node to record waypoints and plot desired trajectory | None | None |
 
 
 ---
@@ -294,17 +296,45 @@ hardware_instrumentation/
 
 ## Authors
 
-Abraham Moro Hernández
-Tecnológico de Monterrey – Campus Puebla
-Concentración en Movilidad Inteligente 
+Abraham Moro-Hernandez
+Tecnologico de Monterrey – Campus Puebla
+Smart Mobility Concentration 
 LinkedIn www.linkedin.com/in/abraham-moro-hernandez-amh19
 
-Licencia
+Mariana Manjarrez Lima
+Tecnologico de Monterrey – Campus Puebla
+Smart Mobility Concentration 
+E-mail: marianamanjarrezlima@gmail.com
 
-Distribuido bajo la licencia Apache 2.0, compatible con el ecosistema ROS 2.
+Iván Valdéz del Toro
+Tecnologico de Monterrey – Campus Puebla
+Smart Mobility Concentration 
+E-mail: 
+
+Franco Abraham Díez
+Tecnologico de Monterrey – Campus Puebla
+Smart Mobility Concentration 
+LinkedIn www.linkedin.com/in/franco-abraham-diez
+
+Yonathan Romero Amador
+Tecnologico de Monterrey – Campus Puebla
+Smart Mobility Concentration 
+E-mail:
+
+Pedro García Millán
+Tecnologico de Monterrey – Campus Puebla
+Smart Mobility Concentration 
+LinkedIn www.linkedin.com/in/pedro-garcia-millan
 
 
-Basado en el entorno Quanser QCar ROS 2 y las librerías pal.products.qcar.
-Desarrollado como parte del curso Movilidad Inteligente (MR3004C) — Tecnológico de Monterrey.
+
+
+
+## License
+
+Distributed under the Apache 2.0 License, fully compatible with the ROS 2 ecosystem.
+
+This project is based on the Quanser QCar1 and AMR1 ROS 2 environment and the pal.products.qcar libraries.
+Developed as part of the Smart Mobility course (MR3004C) at Tecnológico de Monterrey.
 
 
