@@ -313,6 +313,10 @@ For those taking over this AMR project, please note these essential points:
 
 
 ### **Pedro**
+The development of the project required several hours of hardwork and technical skills, which are worth the moment you can appreciate the AMR vehícle during an autonomous dynamic driving task. At the actual moment, there are still limitations for autonomous driving development, one of which optimization process is highly recommended after reaching the development of an standarized process on both scale platforms and real ones. Since the opportunity area is related to optimal energy/processing applications, the next step is likely to the implementation of more robust controlers and coms, while using an meta-heuristics algorithm in order to reduce processing time for scale platforms on driving tasks.
+
+Therefore, according to statistical results, the actual project remains under the acceptable quality boundaries if applied as an OEM driving development, which means that despite limitations found during the project development, our strategies demonstrated solid results on the ongoing I+D phase, which (for nxt gen developers) it is expected to evolve and deal with real time circumstances on the driving dynamic (such as obstacle evasion, and environment processing), and given the results, its likely to be reached for the next oncoming developers
+
 
 ---
 
