@@ -80,7 +80,7 @@ Below is the recommended launch sequence for running the QCar on real hardware.
 Starts all hardware interfaces (IMU, LiDAR, encoder, motor interface, camera if available).
 
 ```bash
-ros2 launch qcar qcar_launch_modified_aim_sm.py
+ros2 launch qcar qcar_launch_sm_aim.py
 ```
 
 ---
@@ -117,26 +117,29 @@ This node computes the steering command based on the loaded trajectory and publi
 
 For QCar:
 ```bash
-ros2 run sensores_kalman qcar_pure_pursuit
+ros2 run sensores_kalman pure_pursuit_node
 ```
+creates a circular trajectory if none waypoints.csv are loaded.
+```bash
+ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/route/name_trajectory.csv
+```
+ros2 Comman to load a recorded trajectory.
+
 
 For AMR:
 ```bash
 ros2 run sensores_kalman amr_pure_pursuit
 ```
+creates a sinewave trajectory if none waypoints.csv are loaded.
 
 ---
 
-## 🔍 Optional Individual Sensor Nodes
+## Optional Individual Sensor Nodes
 
 Run only if you want to debug/visualize each sensor independently:
 
-### IMU Kalman Filter
-```bash
-ros2 run sensores_kalman imu_kalman_node
-```
 
-### LiDAR visualization + QoS handling
+### LiDAR visualization 
 ```bash
 ros2 run sensores_kalman lidar_kalman_node_amh19
 ```
@@ -145,7 +148,10 @@ ros2 run sensores_kalman lidar_kalman_node_amh19
 ```bash
 ros2 run sensores_kalman trayectoria_grabar_csv_node
 ```
-
+and command node has to run for Qcar trayectories
+```bash
+ros2 run qcar command
+```
 ---
 
 # Node Description Summary
