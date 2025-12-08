@@ -199,7 +199,7 @@ Pure Pursuit & control nodes
 Sensor fusion (IMU, LiDAR, encoder)
 
 
----Supporting Development Laptop---
+### **Supporting Development Laptop**
 
 A secondary system was also used for testing, debugging and remote execution:
 
@@ -220,7 +220,7 @@ Dataset generation, visualization, and analysis
 
 
 
----Embedded Computing for AMR1---
+### **Embedded Computing for AMR1**
 
 To support autonomous navigation and sensor acquisition for the AMR1 platform, a dedicated embedded system was used:
 
@@ -243,7 +243,7 @@ Real-time control loops
 CAN / serial integration
 
 
-Microcontroller Layer (ESP32)
+### **Microcontroller Layer (ESP32)**
 
 A set of ESP32 microcontrollers was used for:
 
