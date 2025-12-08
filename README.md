@@ -13,8 +13,7 @@ Real-time filtering (Kalman)
 
 Autonomous navigation (Pure Pursuit, Ackermann model)
 
-Hardware firmware (ESP32, Jetson Nano Orin) for integrated sensing
-ROS2 (Humble) nodes for state estimation, mapping, and control
+Hardware/firmware 
 
 
 ## Workspace Structure
@@ -167,7 +166,97 @@ ros2 run qcar command
 | **ekf_fusion_node** | Extended Kalman Filter combining IMU + LiDAR + encoder | `/qcar/imu`, `/qcar/scan`, `/qcar/velocity` |
 
 ---
+## Development & Execution Environment
 
+This project was developed and tested using a combination of high-performance laptops and embedded hardware to ensure reliable real-time autonomy for both QCar1 and AMR1 platforms.
+
+---Main Development Machine---
+
+All ROS2 nodes, Pure Pursuit controllers, EKF estimators, and integration pipelines were developed and executed on:
+
+ASUS ROG Strix G16
+
+CPU: Intel Core i9
+
+GPU: NVIDIA RTX 4060
+
+RAM: 32 GB
+
+Storage: 1 TB NVMe SSD
+
+OS: Ubuntu 22.04 LTS
+
+Middleware: ROS2 Humble 
+
+This machine was used to run:
+
+All ROS 2 launch files
+
+Real-time QCar teleoperation
+
+Pure Pursuit & control nodes
+
+Sensor fusion (IMU, LiDAR, encoder)
+
+
+---Supporting Development Laptop---
+
+A secondary system was also used for testing, debugging and remote execution:
+
+ASUS TUF Gaming (Ryzen)
+
+CPU: AMD Ryzen Series
+
+GPU: NVIDIA RTX series
+
+RAM: 16 GB
+
+OS (host): Windows 11
+
+WSL2 Distribution: Ubuntu 22.04 LTS
+
+Used for Pure Pursuit and control nodes
+Dataset generation, visualization, and analysis
+
+
+
+---Embedded Computing for AMR1---
+
+To support autonomous navigation and sensor acquisition for the AMR1 platform, a dedicated embedded system was used:
+
+NVIDIA Jetson Orin Developer Kit
+
+ARM64 architecture
+
+Hosted ROS 2 nodes for IMU, encoders and Pure Pursuit
+
+Executed firmware communication with ESP32 microcontrollers
+
+Used as the on-board brain for:
+
+Low-latency sensor acquisition
+
+Hardware-level filtering
+
+Real-time control loops
+
+CAN / serial integration
+
+
+Microcontroller Layer (ESP32)
+
+A set of ESP32 microcontrollers was used for:
+
+Encoder acquisition
+
+IMU acquisition
+
+Serial and CAN communication
+
+Integrated hardware instrumentation
+
+Firmware was placed under:
+hardware_instrumentation/
 
 
 
