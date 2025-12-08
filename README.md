@@ -112,16 +112,16 @@ ros2 run sensores_kalman qcar_watchdog_node
 ## **Pure Pursuit Controller (Autonomous Driving)**
 
 ### **Run Pure Pursuit controller**
-This node computes the steering command based on the loaded trajectory and publishes automatic driving commands.
+This node computes the steering command based on the loaded trajectory and publishes automatic driving commands,
+creates a circular trajectory if none waypoints.csv are loaded.
 
 ```bash
 ros2 run sensores_kalman pure_pursuit_node
 ```
-creates a circular trajectory if none waypoints.csv are loaded.
+ROS2 Command to load a recorded trajectory.
 ```bash
 ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/route/name_trajectory.csv
 ```
-ros2 Comman to load a recorded trajectory.
 
 ---
 
@@ -162,12 +162,16 @@ ros2 run sensores_kalman amr_pose_ekf_amr
 ## **Pure Pursuit Controller (Autonomous Driving)**
 
 ### **Run Pure Pursuit controller**
-This node computes the steering command based on the loaded trajectory and publishes automatic driving commands.
+This node computes the steering command based on the loaded trajectory and publishes automatic driving commands,
+creates a sinewave trajectory if none waypoints.csv are loaded.
 
 ```bash
 ros2 run sensores_kalman amr_pure_pursuit
 ```
-creates a sinewave trajectory if none waypoints.csv are loaded.
+ROS2 Command to load a recorded trajectory.
+```bash
+ros2 run sensores_kalman pure_pursuit_node --ros-args -p path_csv:=/home/user/route/name_trajectory.csv
+```
 
 ---
 
@@ -177,13 +181,11 @@ creates a sinewave trajectory if none waypoints.csv are loaded.
 
 | Node | Description | Topics |
 |------|-------------|--------|
-| **qcar_pose** | Pose estimation from IMU + velocity | `/qcar/velocity`, `/qcar/user_command` |
-| **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command` |
+| **pose_ekf_qcar_2** | Pose estimation from IMU + Encoder | `/qcar/velocity`, `/qcar/imu` |
 | **qcar_lidar_alert_2** | Frontal LiDAR obstacle detection | `/qcar/scan`, `/qcar/obstacle_alert` |
+| **qcar_pure_pursuit** | Pure Pursuit controller for autonomous driving | `/qcar/pose`, `/qcar/user_command`, `/qcar/obstacle_alert`|
 | **qcar_watchdog_node** | Safety node: forces STOP if command frequency drops | `/qcar/user_command` |
-| **imu_kalman_node** | IMU noise reduction using a Kalman filter | `/qcar/imu` |
 | **lidar_kalman_node_amh19** | LiDAR QoS + filtered visualization | `/qcar/scan` |
-| **ekf_fusion_node** | Extended Kalman Filter combining IMU + LiDAR + encoder | `/qcar/imu`, `/qcar/scan`, `/qcar/velocity` |
 
 ---
 ## Development & Execution Environment
