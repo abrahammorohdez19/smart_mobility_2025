@@ -330,30 +330,34 @@ PhD. Hugo Gonzalez-Hernandez, Pedro, Alfonso, Franco, Yonathan, Abraham, PhD. Da
 
 Project Leadership & Autonomous Systems
 
-Abraham Moro Hernández – Project Leader
+Abraham Moro Hernández – |Project Leader|
 Responsible for the complete integration of autonomous mobility in QCar1 and AMR1, including ROS2 architecture, sensor fusion pipelines, calibration pipelines, hardware instrumentation and integration and ESP32 firmware.
 
-Iván Valdez del Toro – Co-Leader
+Iván Valdez del Toro – |Co-Leader|
 Coordinated ROS2 nodes, hardware integration, software architecture, and Pure Pursuit controllers.
 
-Mariana Manjarrez Lima – Autonomous Systems Engineer
+Mariana Manjarrez Lima – |Autonomous Systems Engineer|
 Worked on ROS2 nodes, calibration pipelines, control tuning, and testing of both QCar1 and AMR1.
 
 AMR1 Rehabilitation & Embedded Control Team
 
-Franco Abraham Díez – Embedded Systems / CANBus Lead
+Franco Abraham Díez – |Embedded Systems / CANBus Lead|
 Rehabilitated AMR1 wiring, designed CAN bus communication, actuator control, mechanical design and manufacturing.
 
-Yonathan Romero Amador – Motor Control & Sensor Integration
+Yonathan Romero Amador – |Motor Control & Sensor Integration|
+
 Assisted in AMR1 instrumentation, PCB Design for AMR1 systems and and microcontroller integration.
 
-Pedro García Millán – Documentation
+Pedro García Millán – |Documentation|
 Supported documentation of AMR1.
 
 
 ## Research Support
 
-MSc. Julio (PhD Student)
+MSc. Jesús Orlando (PhD Student)
+Advised on state estimation, Kalman filtering, and control strategies.
+
+MSc. Julio de la Trinidad (PhD Student)
 Advised on state estimation, Kalman filtering, and control strategies.
 
 Alexander (PhD Student)
