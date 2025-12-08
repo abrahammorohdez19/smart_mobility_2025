@@ -310,7 +310,7 @@ For those taking over this AMR project, please note these essential points:
 * Support: Enjoy the project!
 
 ### **Yonathan**
-
+Regardless of your major or background, this project will help you develop real engineering skills if you are willing to try. Don’t be afraid to dive in.
 
 ### **Pedro**
 The development of the project required several hours of hardwork and technical skills, which are worth the moment you can appreciate the AMR vehícle during an autonomous dynamic driving task. At the actual moment, there are still limitations for autonomous driving development, one of which optimization process is highly recommended after reaching the development of an standarized process on both scale platforms and real ones. Since the opportunity area is related to optimal energy/processing applications, the next step is likely to the implementation of more robust controlers and coms, while using an meta-heuristics algorithm in order to reduce processing time for scale platforms on driving tasks.
@@ -404,12 +404,12 @@ LinkedIn http://www.linkedin.com/in/ivan-valdez-del-toro
 Franco Abraham Díez
 Tecnologico de Monterrey – Campus Puebla
 --Smart Mobility Concentration-- 
-LinkedIn www.linkedin.com/in/franco-abraham-diez
+LinkedIn https://www.linkedin.com/in/franco-abraham-diez-259273315?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Begf%2FhezURfG7bdZxPl1opA%3D%3D
 
 Yonathan Romero Amador
 Tecnologico de Monterrey – Campus Puebla
 --Smart Mobility Concentration-- 
-E-mail:
+E-mail: romeroamadoryonathan@gmail.com
 
 Pedro García Millán
 Tecnologico de Monterrey – Campus Puebla
