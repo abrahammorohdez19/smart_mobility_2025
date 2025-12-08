@@ -170,7 +170,7 @@ ros2 run qcar command
 
 This project was developed and tested using a combination of high-performance laptops and embedded hardware to ensure reliable real-time autonomy for both QCar1 and AMR1 platforms.
 
----Main Development Machine---
+### **Main Development Machine**
 
 All ROS2 nodes, Pure Pursuit controllers, EKF estimators, and integration pipelines were developed and executed on:
 
