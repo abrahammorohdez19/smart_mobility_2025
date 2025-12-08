@@ -217,7 +217,7 @@ This project was developed and tested using a combination of high-performance la
 
 ### **Main Development Machine**
 
-All ROS2 nodes, Pure Pursuit controllers, EKF estimators, and integration pipelines were developed and executed on:
+All ROS2 nodes, Pure Pursuit controllers and integration pipelines were developed and executed on:
 ### *ASUS ROG Strix G16
 CPU: Intel Core i9
 GPU: NVIDIA RTX 4060
@@ -281,7 +281,7 @@ This section is dedicated to future generations of students, researchers, and de
 Below you may find personal messages, lessons learned, and advice from each team member to help guide the next stage of innovation.
 
 ### **Abraham**
-I want to tell you that, for whatever reason you decided to continue this project, you must have that purpose with you through the whole process, as a personal advise, at first understand what you need to do, and how can you do it, study, learn and ask all those questions, once you understand the most and have completely understand the problem, you can start solving it or looking for errors, enjoy the process, enjoy the challenges, have a great time with your team and never forget your objective. This project will make you a much better engineer, suffering comes with it too, but every single working hour is totally valuable. At the end when you think you lose hope and nothing works, reflect on how you started the project, who you were, and now how that person has changed along the challenge, enjoy it!.
+I want to tell you that whatever reason you decided to continue this project, hold on to that purpose throughout the whole process. As a personal advice: start by understanding what needs to be done and how you can achieve it. Study, learn and ask all the questions you need. Once you truly understand the problem, you can begin solving it and debugging with confidence. Enjoy the process, enjoy the challenges, have a great time with your team and never lose sight of your objective. This project will make you a better engineer. Yes, there will be struggle, but every hour you invest is worth it. And when you feel like you've lost hope and nothing works, take a moment to reflect on how you started, who you were back then, and how much you’ve grown throughout the challenge. Appreciate that journey. Enjoy it.-AMH19
 
 ### **Mariana**
 
